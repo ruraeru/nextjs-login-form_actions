@@ -24,7 +24,9 @@ export default function Input({ name, errors = [], ...rest }: InputProps & Input
                     name={name}
                     className="bg-transparent rounded-3xl px-10 py-6 w-full 
             h-10 focus:outline-none ring-2 focus:ring-4 transition
-            ring-gray-500 focus:ring-neutral-200 border-none placeholder:text-neutral-400"
+            bg-none
+            ring-gray-500 focus:ring-neutral-200 
+            border-none placeholder:text-neutral-400"
                     {...rest}
                 />
             </div>
