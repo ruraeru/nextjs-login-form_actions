@@ -1,19 +1,31 @@
 "use server";
 
-import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
+import {
+  EMAIL_REGEX,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_REGEX,
+  USERNAME_MIN_LENGTH,
+} from "@/lib/constants";
 import { z } from "zod";
 
-const checkPassword = (password: string) => password === "12345";
-
 const formSchema = z.object({
-  email: z.string().email().toLowerCase(),
-  username: z.string(),
+  email: z
+    .string()
+    .email()
+    .toLowerCase()
+    .regex(EMAIL_REGEX, "Only @zod.com emails are allowed"),
+  username: z
+    .string()
+    .min(USERNAME_MIN_LENGTH, "Username should be at least 5 characters long."),
   password: z
     .string({
       required_error: "Password is require",
     })
-    .min(PASSWORD_MIN_LENGTH)
-    .refine(checkPassword, "Wrong Password"),
+    .min(PASSWORD_MIN_LENGTH, "Password should be at least 10 characters long.")
+    .regex(
+      PASSWORD_REGEX,
+      "Password should contain at least one number (0123456789)."
+    ),
 });
 
 export async function login(prevState: any, formData: FormData) {

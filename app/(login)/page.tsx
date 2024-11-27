@@ -1,10 +1,10 @@
 "use client"
 
-import { login } from "@/app/action";
 import Button from "@/components/button";
 import Input from "@/components/input";
-import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
+import { PASSWORD_MIN_LENGTH, USERNAME_MIN_LENGTH } from "@/lib/constants";
 import { useActionState } from "react";
+import { login } from "./action";
 
 export default function Home() {
   const [state, dispatch] = useActionState(login, null);
@@ -27,6 +27,7 @@ export default function Home() {
           type="text"
           placeholder="useranme"
           required
+          // minLength={USERNAME_MIN_LENGTH}
           errors={state?.fieldErrors.username}
         />
         <Input
@@ -34,7 +35,7 @@ export default function Home() {
           type="password"
           placeholder="Password"
           required
-          minLength={PASSWORD_MIN_LENGTH}
+          // minLength={PASSWORD_MIN_LENGTH}
           errors={state?.fieldErrors.password}
         />
         <Button text="Log in" />
