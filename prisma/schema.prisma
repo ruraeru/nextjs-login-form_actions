@@ -23,16 +23,16 @@ model User {
 }
 
 model Tweet {
-  tweet        Int      @id @default(autoincrement())
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
-  user         User     @relation(fields: [userUsername], references: [username])
-  userUsername String
+  tweet       Int      @id @default(autoincrement())
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  author      User     @relation(fields: [author_name], references: [username])
+  author_name String
 }
 
 model Like {
-  id           Int      @id @default(autoincrement())
-  created_at   DateTime @default(now())
-  user         User     @relation(fields: [userUsername], references: [username])
-  userUsername String
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [Username], references: [username])
+  Username   String
 }
