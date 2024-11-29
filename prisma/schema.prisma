@@ -12,7 +12,7 @@ model User {
   username   String   @unique
   password   String
   email      String   @unique
-  bio        String
+  bio        String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   Tweet      Tweet[]
