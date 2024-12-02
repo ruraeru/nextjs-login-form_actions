@@ -11,11 +11,20 @@ async function fetchTweet() {
 }
 
 export default function Home() {
-    const [tweet, setTweet] = useState([]);
-
+    const [tweet, setTweet] = useState<any>([]);
+    const loadTweet = async () => {
+        const tweet = await db.tweet.findMany()
+        setTweet(tweet)
+    }
     return (
         <div>
             Tweet
+            {tweet && tweet ? <div>{tweet.id}</div> : ""}
+            <form action={loadTweet}>
+                <button>
+                    click
+                </button>
+            </form>
         </div>
 
         // <ul>
