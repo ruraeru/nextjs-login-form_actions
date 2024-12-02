@@ -1,6 +1,5 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session"
-import { cookies } from "next/headers"
 import { notFound, redirect } from "next/navigation";
 
 async function getUser() {
