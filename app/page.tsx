@@ -1,39 +1,25 @@
-"use client"
+import TweetLists from "@/components/tweet-list";
+import db from "@/lib/db"
+import { Prisma } from "@prisma/client";
 
-import db from "@/lib/db";
-import Link from "next/link";
-import { useState } from "react";
-
-async function fetchTweet() {
-    const tweet = await db.tweet.findMany({
-        take: 2
-    })
+async function getInitialTweets() {
+    const products = await db.tweet.findMany({
+        take: 1,
+        orderBy: {
+            created_at: "desc"
+        },
+    });
+    console.log(products)
+    return products;
 }
 
-export default function Home() {
-    const [tweet, setTweet] = useState<any>([]);
-    const loadTweet = async () => {
-        const tweet = await db.tweet.findMany()
-        setTweet(tweet)
-    }
+export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
+
+export default async function Products() {
+    const initialTweets = await getInitialTweets()
     return (
         <div>
-            Tweet
-            {tweet && tweet ? <div>{tweet.id}</div> : ""}
-            <form action={loadTweet}>
-                <button>
-                    click
-                </button>
-            </form>
+            <TweetLists initialTweets={initialTweets} />
         </div>
-
-        // <ul>
-        //     <li>
-        //         <Link href={"/log-in"}>Log in</Link>
-        //     </li>
-        //     <li>
-        //         <Link href={"/create-account"}>create-account</Link>
-        //     </li>
-        // </ul>
     )
 }
