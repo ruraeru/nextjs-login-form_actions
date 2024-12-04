@@ -1,4 +1,5 @@
 import db from "@/lib/db";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 
 async function tweetDetail(tweetId: string) {
@@ -24,8 +25,26 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
     }
     return (
         <div className="pb-36">
-            <h3 className="p-5 flex items-center gap-3 border-b border-neutral-500">{tweet.user.username}</h3>
+            <h3>
+                {tweet.user.username}
+            </h3>
+            <h3
+                className="p-5 flex items-center gap-3 border-b border-neutral-500 
+                truncate"
+            >{tweet.title}
+            </h3>
             <p className="p-5">{tweet.tweet}</p>
-        </div>
+            {
+                tweet.photo ? (
+                    <div>
+                        <Image
+                            width={0} height={0} sizes="100vw"
+                            style={{ width: '100%', height: 'auto' }}
+                            src={tweet.photo} alt={tweet.title}
+                        />
+                    </div>
+                ) : null
+            }
+        </div >
     )
 }
