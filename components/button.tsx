@@ -10,6 +10,7 @@ export default function Button({ text }: ButtonProps) {
     const { pending } = useFormStatus();
     return (
         <button disabled={pending} className="h-20 
+        w-full
         bg-gray-500
         rounded-full
         disabled:bg-neutral-400

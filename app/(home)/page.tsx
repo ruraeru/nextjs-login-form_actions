@@ -12,7 +12,6 @@ async function getInitialTweets() {
             user: true
         }
     });
-    console.log(products)
     return products;
 }
 

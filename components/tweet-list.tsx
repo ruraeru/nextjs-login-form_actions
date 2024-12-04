@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import ListTweet from "./list-tweet";
 import { getPaginatedTweets, InitialTweets } from "@/service/tweetService";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from "@heroicons/react/24/solid";
+import AddTweet from "./add-tweet";
 export default function TweetList({ initialTweets }: { initialTweets: InitialTweets }) {
     const [tweets, setTweets] = useState(initialTweets);
     const [page, setPage] = useState(1);
@@ -18,6 +19,7 @@ export default function TweetList({ initialTweets }: { initialTweets: InitialTwe
     return (
         <div>
             <div className="p-5 flex flex-col gap-5">
+                <AddTweet />
                 {tweets.map((tweet) => (
                     <ListTweet key={tweet.id} {...tweet} />
                 ))}
