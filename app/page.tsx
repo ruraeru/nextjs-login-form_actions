@@ -8,6 +8,9 @@ async function getInitialTweets() {
         orderBy: {
             created_at: "desc"
         },
+        include: {
+            user: true
+        }
     });
     console.log(products)
     return products;
