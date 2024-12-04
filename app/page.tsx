@@ -18,7 +18,7 @@ export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
 export default async function Products() {
     const initialTweets = await getInitialTweets()
     return (
-        <div>
+        <div className="p-5 flex flex-col gap-5">
             <TweetLists initialTweets={initialTweets} />
         </div>
     )

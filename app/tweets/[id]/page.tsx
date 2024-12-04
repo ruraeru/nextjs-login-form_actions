@@ -23,10 +23,9 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
         return notFound()
     }
     return (
-        <div>
-            {id}
-            <h1>{tweet.tweet}</h1>
-            <p>{tweet.user.username}</p>
+        <div className="pb-36">
+            <h3 className="p-5 flex items-center gap-3 border-b border-neutral-500">{tweet.user.username}</h3>
+            <p className="p-5">{tweet.tweet}</p>
         </div>
     )
 }

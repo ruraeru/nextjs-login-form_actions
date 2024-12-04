@@ -1,55 +1,42 @@
-"use client"
-
-import { useState } from "react";
-import { InitialTweets } from "@/app/page";
-import { getMoreTweets } from "@/app/tweets/actions";
-import ListProduct from "./list-tweet";
-
-interface TweetListProps {
-    initialTweets: InitialTweets;
-}
-
-export default function TweetLists({ initialTweets }: TweetListProps) {
+"use client";
+import { useEffect, useState } from "react";
+import ListTweet from "./list-tweet";
+import { getPaginatedTweets, InitialTweets } from "@/service/tweetService";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+export default function TweetList({ initialTweets }: { initialTweets: InitialTweets }) {
     const [tweets, setTweets] = useState(initialTweets);
-    const [isLoading, setIsLoading] = useState(false);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [isLastPage, setIsLastPage] = useState(false);
-    const onLoadMoreClick = async () => {
-        setIsLoading(true);
-        const newTweet = await getMoreTweets(page + 1);
-        if (newTweet.length !== 0) {
-            // setPage(prev => prev + 1);
-            setTweets((prev) => [...prev, ...newTweet]);
-        }
-        else {
-            setIsLastPage(true);
-        }
-        setIsLoading(false);
-    };
+    useEffect(() => {
+        const fetchMoreTweet = async () => {
+            const { tweets, isLastPage } = await getPaginatedTweets(page);
+            setIsLastPage(isLastPage);
+            setTweets(tweets);
+        };
+        fetchMoreTweet();
+    }, [page]);
     return (
-        <div className="p-5 flex flex-col gap-5">
-            {tweets.map((product) => (
-                <ListProduct key={product.id} {...product} />
-            ))}
-            <form action={onLoadMoreClick}>
+        <div>
+            <div className="p-5 flex flex-col gap-5">
+                {tweets.map((tweet) => (
+                    <ListTweet key={tweet.id} {...tweet} />
+                ))}
+            </div>
+            <div className="w-full max-w-screen-sm flex bottom-32 fixed mx-auto gap-10 items-center justify-center">
                 <button
-                    onClick={() => setPage(prev => prev - 1)}
-                    disabled={isLoading}
-                    className="text-sm font-semibold bg-orange-500 w-fit mx-auto px-3 py-2 rounded-md hover:opacity-90 active:scale-95"
-                >
-                    {isLoading ? "로딩 중" : "back"}
+                    className="disabled:text-stone-200"
+                    onClick={() => setPage((prev) => (prev === 1 ? prev : prev - 1))}
+                    disabled={page === 1}>
+                    <ChevronLeftIcon width={20} height={20} />
                 </button>
-                {isLastPage ? null : (
-                    <button
-                        onClick={() => setPage(prev => prev + 1)}
-                        disabled={isLoading}
-                        className="text-sm font-semibold bg-orange-500 w-fit mx-auto px-3 py-2 rounded-md hover:opacity-90 active:scale-95"
-                    >
-                        {isLoading ? "로딩 중" : "forward"}
-                    </button>
-                )
-                }
-            </form>
+                <span>{page}</span>
+                <button
+                    className="disabled:text-stone-200"
+                    onClick={() => setPage((prev) => (isLastPage ? prev : prev + 1))}
+                    disabled={isLastPage}>
+                    <ChevronRightIcon width={20} height={20} />
+                </button>
+            </div>
         </div>
     );
 }
