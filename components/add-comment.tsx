@@ -6,31 +6,30 @@ import Input from "./input";
 import { useOptimistic, useState } from "react";
 import { addComment } from "@/app/tweets/[id]/actions";
 import Comment from "./comment";
+import { set } from "zod";
 
 export default function AddComment({ tweetId }: { tweetId: number }) {
     const [comment, setComment] = useState("");
-    const [state, reducerFn] = useOptimistic({ tweetId, comment }, (prevState, payload) => ({
+    const [state, reducerFn] = useOptimistic({ tweetId, comment }, (prevState, payload: string) => ({
         tweetId,
-        comment: prevState.comment,
+        comment: payload,
     }));
 
     const onClick = async (e: FormData) => {
-        reducerFn(undefined);
         reducerFn(await addComment(tweetId, e))
+        reducerFn("");
         setComment("");
-
     }
     const onChange = (e: React.FormEvent<HTMLInputElement>) => {
         setComment(e.currentTarget.value)
     }
     return (
         <>
-            <form action={onClick} className="flex flex-col gap-2 w-full">
-                <div className="flex items-center gap-2">
+            <form action={onClick} className="flex flex-col gap-2">
+                <div className="flex items-center justify-between gap-2">
                     <UserIcon className="size-7" />
                     <Input
                         onChange={onChange}
-                        value={comment}
                         name="comment"
                         type="text"
                         required
@@ -43,9 +42,11 @@ export default function AddComment({ tweetId }: { tweetId: number }) {
                 </div>
             </form>
             {state.comment ? (
-                <div className="flex items-center justify-between h-20 bg-neutral-500 p-5
-                border-4 border-blue-400 rounded-xl my-2">
-                    <h3>{state.comment}</h3>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h3>{state.comment}</h3>
+                        <span>방금</span>
+                    </div>
                     <div onClick={() => setComment("")}>
                         <button>삭제하기</button>
                     </div>
