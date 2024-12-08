@@ -8,15 +8,17 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  username   String   @unique
+  id         Int        @id @default(autoincrement())
+  username   String     @unique
   password   String
-  email      String   @unique
+  email      String     @unique
   bio        String?
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  Tweet      Tweet[]
-  Like       Like[]
+  avatar     String?
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  tweet      Tweet[]
+  like       Like[]
+  response   Response[]
 }
 
 model Tweet {
@@ -24,24 +26,42 @@ model Tweet {
   title      String
   tweet      String
   photo      String?
+  views      Int      @default(0)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int
-  Like   Like[]
-
-  @@index([userId])
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   Int
+  like     Like[]
+  response Response[]
 }
 
 model Like {
   created_at DateTime @default(now())
-  tweet      Tweet    @relation(fields: [tweetId], references: [id], onDelete: Cascade)
-  tweetId    Int
-  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     Int
+  updated_at DateTime @updatedAt
 
-  @@unique([tweetId, userId], name: "id")
-  @@index([userId])
-  @@index([tweetId])
+  tweet    Tweet      @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  tweetId  Int
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   Int
+  response Response[]
+
+  @@id(name: "id", [tweetId, userId])
+}
+
+model Response {
+  id      Int    @id @default(autoincrement())
+  payload String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user    User  @relation(fields: [userId], references: [id])
+  userId  Int
+  tweet   Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  tweetId Int
+
+  like        Like? @relation(fields: [likeTweetId, likeUserId], references: [tweetId, userId], onDelete: Cascade)
+  likeTweetId Int?
+  likeUserId  Int?
 }

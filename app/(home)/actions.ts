@@ -38,11 +38,12 @@ export async function uploadTweet(_: any, formData: FormData) {
   if (!result.success) {
     return result.error.flatten();
   } else {
+    const { title, tweet, photo } = result.data;
     const session = await getSession();
-    const tweet = await db.tweet.create({
+    const newTweet = await db.tweet.create({
       data: {
-        title: result.data.title,
-        tweet: result.data.tweet,
+        title,
+        tweet,
         photo: data.photo !== null ? data.photo : null,
         user: {
           connect: {
@@ -54,6 +55,6 @@ export async function uploadTweet(_: any, formData: FormData) {
         id: true,
       },
     });
-    redirect(`/tweets/${tweet.id}`);
+    redirect(`/tweets/${newTweet.id}`);
   }
 }

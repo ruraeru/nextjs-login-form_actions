@@ -5,18 +5,20 @@ import { useFormStatus } from "react-dom";
 
 interface ButtonProps {
     text: string;
+    width?: string;
+    height?: string;
 }
 
-export default function Button({ text, ...rest }: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) {
+export default function Button({ text, width = "full", height = "20", ...rest }: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) {
     const { pending } = useFormStatus();
     return (
-        <button disabled={pending} {...rest} className="h-20 
-        w-full
+        <button disabled={pending} {...rest} className={`
+        h-${height} w-${width}
         bg-gray-500
         rounded-full
         disabled:bg-neutral-400
          disabled:text-neutral-300
-         disabled:cursor-not-allowed">
+         disabled:cursor-not-allowed`}>
             {pending ? "Loading..." : text}
         </button>
     )
