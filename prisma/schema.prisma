@@ -40,11 +40,10 @@ model Like {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  tweet    Tweet      @relation(fields: [tweetId], references: [id], onDelete: Cascade)
-  tweetId  Int
-  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   Int
-  response Response[]
+  tweet   Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  tweetId Int
+  user    User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int
 
   @@id(name: "id", [tweetId, userId])
 }
@@ -52,6 +51,7 @@ model Like {
 model Response {
   id      Int    @id @default(autoincrement())
   payload String
+  likes   Int    @default(0)
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -60,8 +60,4 @@ model Response {
   userId  Int
   tweet   Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
   tweetId Int
-
-  like        Like? @relation(fields: [likeTweetId, likeUserId], references: [tweetId, userId], onDelete: Cascade)
-  likeTweetId Int?
-  likeUserId  Int?
 }

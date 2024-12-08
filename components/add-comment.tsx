@@ -9,17 +9,21 @@ import Comment from "./comment";
 import { set } from "zod";
 
 export default function AddComment({ tweetId }: { tweetId: number }) {
-    const [comment, setComment] = useState("");
-    const [state, reducerFn] = useOptimistic({ tweetId, comment }, (prevState, payload: string) => ({
-        tweetId,
-        comment: payload,
+    const [comment, setComment] = useState("")
+    const [isSending, setSending] = useState(false);
+
+    const [state, reducerFn] = useOptimistic({ isSending, comment }, (prevState, newComment: string) => ({
+        isSending: !prevState.isSending,
+        comment: newComment,
     }));
 
-    const onClick = async (e: FormData) => {
-        reducerFn(await addComment(tweetId, e))
-        reducerFn("");
+    const onClick = async (formData: FormData) => {
+        reducerFn(comment);
+        await addComment(tweetId, formData);
         setComment("");
+        setSending(false);
     }
+
     const onChange = (e: React.FormEvent<HTMLInputElement>) => {
         setComment(e.currentTarget.value)
     }
@@ -29,6 +33,7 @@ export default function AddComment({ tweetId }: { tweetId: number }) {
                 <div className="flex items-center justify-between gap-2">
                     <UserIcon className="size-7" />
                     <Input
+                        value={state.comment}
                         onChange={onChange}
                         name="comment"
                         type="text"
@@ -41,8 +46,8 @@ export default function AddComment({ tweetId }: { tweetId: number }) {
                     <Button height="8" width="16" text="Reply" />
                 </div>
             </form>
-            {state.comment ? (
-                <div className="flex items-center justify-between">
+            {state.isSending ? (
+                <div className="flex items-center justify-between animate-pulse">
                     <div>
                         <h3>{state.comment}</h3>
                         <span>방금</span>

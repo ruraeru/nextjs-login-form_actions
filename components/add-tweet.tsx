@@ -78,13 +78,11 @@ export default function AddTweet() {
                 />
                 <div className="flex items-center justify-around h-10 py-10">
                     <label htmlFor="photo">
-                        <PhotoIcon className="size-5" />
+                        <PhotoIcon className="size-5 cursor-pointer" />
                     </label>
                     <Button style={{
-                        width: "240px",
-                        height: "18px",
-                        fontSize: "15px"
-                    }} text="게시하기"></Button>
+                        width: "240px"
+                    }} height="10" text="게시하기"></Button>
                 </div>
             </form>
         </div >

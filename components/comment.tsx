@@ -1,6 +1,7 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
+import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/solid";
 import { revalidatePath } from "next/cache";
 
 interface CommentProps {
@@ -10,6 +11,7 @@ interface CommentProps {
     updated_at: Date;
     userId: number;
     tweetId: number;
+    likes: number;
 }
 
 async function getIsOwner(userId: number) {
@@ -21,7 +23,7 @@ async function getIsOwner(userId: number) {
     return false;
 }
 
-export default async function Comment({ id, payload, created_at, userId }: CommentProps) {
+export default async function Comment({ id, payload, created_at, userId, likes }: CommentProps) {
     const isOwner = await getIsOwner(userId);
     const onDelete = async () => {
         "use server"
@@ -47,6 +49,11 @@ export default async function Comment({ id, payload, created_at, userId }: Comme
                     </div>
                 ) : ""
             }
+            <div className="flex items-center gap-2">
+                <ArrowUpIcon className="size-4" />
+                <p>{likes}</p>
+                <ArrowDownIcon className="size-4" />
+            </div>
         </div>
     )
 }

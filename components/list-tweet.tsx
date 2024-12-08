@@ -14,7 +14,6 @@ export default function ListTweet({
     id: number;
     user: User;
 }) {
-    console.log(tweet)
     return (
         <Link href={`/tweets/${id}`} className="flex flex-col p-10 rounded-2xl *:text-stone-700 bg-stone-200">
             <div className="flex items-center justify-between">
