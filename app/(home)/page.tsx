@@ -3,7 +3,7 @@ import db from "@/lib/db"
 import { Prisma } from "@prisma/client";
 
 async function getInitialTweets() {
-    const products = await db.tweet.findMany({
+    const tweets = await db.tweet.findMany({
         take: 1,
         orderBy: {
             created_at: "desc"
@@ -12,7 +12,7 @@ async function getInitialTweets() {
             user: true
         }
     });
-    return products;
+    return tweets;
 }
 
 export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;

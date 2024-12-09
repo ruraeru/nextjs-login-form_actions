@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import ListTweet from "./list-tweet";
 import { getPaginatedTweets, InitialTweets } from "@/service/tweetService";
