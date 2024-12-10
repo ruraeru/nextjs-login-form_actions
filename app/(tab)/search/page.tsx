@@ -1,36 +1,55 @@
-import Input from "@/components/input"
-import SearchBar from "@/components/search-bar";
-import db from "@/lib/db";
-import { formatToTimeAgo } from "@/lib/utils";
+"use client"
+
+import Button from "@/components/button";
+import Input from "@/components/input";
+import { MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/solid";
+import { useActionState } from "react"
+import { searchTweet } from "./actions";
+import ListTweet from "@/components/list-tweet";
 import Link from "next/link";
+import Image from "next/image";
 
-async function getInitialTweets() {
-    const tweets = await db.tweet.findMany({
-        take: 10,
-        orderBy: {
-            created_at: "desc"
-        },
-        include: {
-            user: true
-        }
-    });
-    return tweets;
-}
-
-export default async function Search() {
-    const initialTweets = await getInitialTweets();
+export default function Search() {
+    const [state, dispatch] = useActionState(searchTweet, null);
     return (
-        <div className="p-5">
-            <SearchBar />
-            <div className="p-5 flex flex-col gap-5">
-                {initialTweets.map((tweet) => (
-                    <Link key={tweet.id} href={`/tweets/${tweet.id}`} className="bg-slate-500">
-                        <h3>{tweet.title}</h3>
-                        <p>{tweet.tweet}</p>
-                        <span>{tweet.user.username} - {formatToTimeAgo(tweet.created_at.toString())}</span>
+        <div className="flex flex-col gap-5">
+            <form action={dispatch}>
+                <Input
+                    labelIcon={<MagnifyingGlassIcon />}
+                    name="keyword"
+                    type="text"
+                    placeholder="검색할 내용을 입력해주세요."
+                    errors={state?.error?.formErrors}
+                />
+                <div className="mt-3">
+                    <Button text="검색" />
+                </div>
+            </form>
+            <div className="flex flex-col gap-5">
+                {state?.data?.tweets.map((tweet) => (
+                    <ListTweet key={tweet.id} {...tweet} />
+                ))}
+                {state?.data?.users.map((user) => (
+                    <Link key={user.id} href={`/users/${user.username}`}>
+                        <div className="flex flex-col gap-2">
+                            <div className="flex gap-2 items-center">
+                                <div className="rounded-full w-10 h-10 overflow-hidden">
+                                    {user.avatar === null ? <UserIcon /> : (
+                                        <Image width={40} height={40} src={user.avatar!} alt={user.username} />
+                                    )}
+                                </div>
+                                <div className="flex flex-col">
+                                    <h1>@ {user.username}</h1>
+                                    <small>{user.email}</small>
+                                </div>
+                            </div>
+                            <div>
+                                <h1>{user.bio}</h1>
+                            </div>
+                        </div>
                     </Link>
                 ))}
             </div>
-        </div >
+        </div>
     )
 }
