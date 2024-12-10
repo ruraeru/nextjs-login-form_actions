@@ -4,7 +4,7 @@ import { PhotoIcon, PlusIcon, XCircleIcon } from "@heroicons/react/24/solid";
 import Input from "./input";
 import Button from "./button";
 import { useActionState, useState } from "react";
-import { uploadTweet } from "@/app/(home)/actions";
+import { uploadTweet } from "@/app/(tab)/actions";
 
 export const MAX_FILE_SIZE = 4000000;
 export const ALLOWED_FILE_TYPE = ["png", "jpg", "jpeg"];

@@ -30,9 +30,6 @@ const formSchema = z.object({
     .email()
     .toLowerCase()
     .refine(checkEmailExists, "An Account with this email does not exists."),
-  // username: z
-  //   .string()
-  //   .min(USERNAME_MIN_LENGTH, "Username should be at least 5 characters long."),
   password: z
     .string({
       required_error: "Password is require",
@@ -44,7 +41,6 @@ const formSchema = z.object({
 export async function login(prevState: any, formData: FormData) {
   const data = {
     email: formData.get("email"),
-    // username: formData.get("username"),
     password: formData.get("password"),
   };
   const result = await formSchema.spa(data);
@@ -70,7 +66,7 @@ export async function login(prevState: any, formData: FormData) {
       const session = await getSession();
       session.id = user!.id;
       await session.save();
-      redirect("/profile");
+      return redirect("/profile");
     } else {
       return {
         fieldErrors: {

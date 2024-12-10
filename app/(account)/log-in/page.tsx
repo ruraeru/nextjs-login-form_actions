@@ -6,13 +6,14 @@ import { useActionState } from "react";
 import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 import { login } from "./action";
 import Link from "next/link";
+import { EnvelopeIcon, KeyIcon } from "@heroicons/react/24/solid";
 
 export default function LogIn() {
   //useActionState => login(null) return state => call again action 
   //=> login(prevState) return PrevState
   const [state, dispatch] = useActionState(login, null);
   return (
-    <div className="flex flex-col gap-10 py-8 px-6">
+    <div className="flex flex-col gap-10 items-center justify-center">
       <div className="flex justify-center">
         <svg viewBox="0 0 24 24" aria-hidden="true" className="size-64" fill="white">
           <g>
@@ -21,13 +22,14 @@ export default function LogIn() {
           </g>
         </svg>
       </div>
-      <form action={dispatch} className="flex flex-col gap-3">
+      <form action={dispatch} className="w-full flex flex-col gap-5">
         <Input
           name="email"
           type="email"
           placeholder="Email"
           required
           errors={state?.fieldErrors.email}
+          labelIcon={<EnvelopeIcon />}
         />
         <Input
           name="password"
@@ -36,17 +38,16 @@ export default function LogIn() {
           required
           minLength={PASSWORD_MIN_LENGTH}
           errors={state?.fieldErrors.password}
+          labelIcon={<KeyIcon />}
         />
         <Button text="Log in" />
       </form>
-      <div className="flex items-center gap-5">
-        <h1 className="text-xl">계정이 없으신가요? &rarr;</h1>
-        <span className="text-lg text-cyan-400 underline">
-          <Link href="/create-account">
-            계정 만들러 가기
-          </Link>
-        </span>
+      <div className="flex gap-5">
+        <span>계정이 없으신가요? &rarr;</span>
+        <Link href="/create-account" className="text-lg text-cyan-400 underline">
+          Create Account
+        </Link>
       </div>
-    </div>
+    </div >
   )
 }

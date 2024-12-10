@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../globals.css";
 import Navigation from "@/components/navigation";
 
 export const metadata: Metadata = {
@@ -14,8 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-neutral-900 text-white max-w-screen-sm
-       mx-auto">
+      <body className="relative max-w-screen-sm mx-auto py-10 px-5 bg-neutral-900 text-white">
         <Navigation />
         {children}
       </body>

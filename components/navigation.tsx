@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Navigation() {
     return (
-        <div className="absolute left-0 border-r-2 h-screen top-0">
+        <div className="fixed left-0 border-r-2 h-screen top-0">
             <ul className="flex flex-col gap-5 *:p-5">
                 <li>
                     <Link href="/">

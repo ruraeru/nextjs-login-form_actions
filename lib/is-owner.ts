@@ -4,12 +4,16 @@ import getSession from "./session";
 export async function isOwner(username: string) {
   const session = await getSession();
 
-  const isOwn = await db.user.findUnique({
+  const user = await db.user.findUnique({
     where: {
       username,
     },
-    select: {
-      id: true,
+    include: {
+      tweet: {
+        include: {
+          user: true,
+        },
+      },
     },
   });
   return Boolean(session.id === isOwn?.id);

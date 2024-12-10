@@ -4,7 +4,7 @@ import { PhotoIcon, UserIcon } from "@heroicons/react/24/solid";
 import Button from "./button";
 import Input from "./input";
 import { useOptimistic, useState } from "react";
-import { addComment } from "@/app/tweets/[id]/actions";
+import { addComment } from "@/app/(tab)/tweets/[id]/actions";
 import Comment from "./comment";
 import { set } from "zod";
 

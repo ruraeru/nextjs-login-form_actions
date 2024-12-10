@@ -5,15 +5,13 @@ import { useFormStatus } from "react-dom";
 
 interface ButtonProps {
     text: string;
-    width?: string;
-    height?: string;
 }
 
-export default function Button({ text, width = "full", height = "14", ...rest }: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) {
+export default function Button({ text, ...rest }: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) {
     const { pending } = useFormStatus();
     return (
         <button disabled={pending} {...rest} className={`
-        h-${height} w-${width}
+        w-full h-12
         bg-gray-500
         rounded-full
         disabled:bg-neutral-400
