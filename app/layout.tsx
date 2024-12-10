@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navigation from "@/components/navigation";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-neutral-900 text-white max-w-screen-sm
        mx-auto">
+        <Navigation />
         {children}
       </body>
     </html>

@@ -56,7 +56,7 @@ export default function AddTweet() {
                     <label
                         htmlFor="photo"
                         className={`border-2 aspect-square flex items-center justify-center flex-col border-none rounded-3xl relative
-                        bg-center bg-no-repeat bg-cover`}
+                        bg-center bg-no-repeat`}
                         style={{
                             backgroundImage: `url(${preview})`
                         }}

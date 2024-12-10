@@ -9,7 +9,7 @@ interface ButtonProps {
     height?: string;
 }
 
-export default function Button({ text, width = "full", height = "20", ...rest }: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) {
+export default function Button({ text, width = "full", height = "14", ...rest }: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) {
     const { pending } = useFormStatus();
     return (
         <button disabled={pending} {...rest} className={`

@@ -27,7 +27,7 @@ async function getUsers(keyword: string) {
     return users;
 }
 
-export default async function SearchKeyword({ params }: { params: { keyword: string } }) {
+export default async function SearchKeyword({ params }: { params: Promise<{ keyword: string }> }) {
     const { keyword } = await params;
     const decode_keyword = decodeURI(keyword);
     const tweets = await getTweetList(decode_keyword);
@@ -36,16 +36,16 @@ export default async function SearchKeyword({ params }: { params: { keyword: str
         <div className="p-5">
             <SearchBar />
             {tweets.map((tweet) => (
-                <Link href={`/tweets/${tweet.id}`}>
+                <Link key={tweet.id} href={`/tweets/${tweet.id}`}>
                     {tweet.title}
                 </Link>
             ))}
             <hr />
             <h1>People</h1>
             {users.map((user) => (
-                <div>
+                <Link key={user.id} href={`/users/${user.username}`}>
                     {user.username}
-                </div>
+                </Link>
             ))}
         </div>
     )

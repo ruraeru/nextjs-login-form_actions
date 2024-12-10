@@ -28,9 +28,14 @@ const formSchema = z
       })
       .toLowerCase()
       .trim(),
-    // .transform((username) => `🔥${username}`)
-
-    email: z.string().email().toLowerCase(),
+    email: z
+      .string()
+      .email()
+      .toLowerCase()
+      .refine(
+        (email) => email.includes("@zod.com"),
+        "Only @zod.com email addresses are allowed."
+      ),
     password: z
       .string()
       .min(PASSWORD_MIN_LENGTH)

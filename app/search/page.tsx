@@ -24,7 +24,7 @@ export default async function Search() {
             <SearchBar />
             <div className="p-5 flex flex-col gap-5">
                 {initialTweets.map((tweet) => (
-                    <Link href={`/tweets/${tweet.id}`} className="bg-slate-500">
+                    <Link key={tweet.id} href={`/tweets/${tweet.id}`} className="bg-slate-500">
                         <h3>{tweet.title}</h3>
                         <p>{tweet.tweet}</p>
                         <span>{tweet.user.username} - {formatToTimeAgo(tweet.created_at.toString())}</span>
