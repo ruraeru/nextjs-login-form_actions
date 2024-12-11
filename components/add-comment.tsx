@@ -5,13 +5,10 @@ import Button from "./button";
 import Input from "./input";
 import { useOptimistic, useState } from "react";
 import { addComment } from "@/app/(tab)/tweets/[id]/actions";
-import Comment from "./comment";
-import { set } from "zod";
 
 export default function AddComment({ tweetId }: { tweetId: number }) {
     const [comment, setComment] = useState("")
     const [isSending, setSending] = useState(false);
-
     const [state, reducerFn] = useOptimistic({ isSending, comment }, (prevState, newComment: string) => ({
         isSending: !prevState.isSending,
         comment: newComment,
@@ -23,7 +20,6 @@ export default function AddComment({ tweetId }: { tweetId: number }) {
         setComment("");
         setSending(false);
     }
-
     const onChange = (e: React.FormEvent<HTMLInputElement>) => {
         setComment(e.currentTarget.value)
     }

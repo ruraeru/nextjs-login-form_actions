@@ -38,7 +38,6 @@ const formSchema = z.object({
 });
 
 export async function addComment(tweetId: number, formData: FormData) {
-  await new Promise((r) => setTimeout(r, 5000));
   const data = {
     comment: formData.get("comment"),
     photo: formData.get("photo"),

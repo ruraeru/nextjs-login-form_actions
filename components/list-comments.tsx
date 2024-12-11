@@ -1,14 +1,19 @@
 import db from "@/lib/db"
-import getSession from "@/lib/session";
-import { formatToTimeAgo } from "@/lib/utils";
-import { Prisma } from "@prisma/client";
-import { z } from "zod";
 import Comment from "./comment";
 
 async function getComments(tweetId: number) {
     const comments = await db.response.findMany({
         where: {
             tweetId
+        },
+        include: {
+            user: {
+                select: {
+                    username: true,
+                    email: true,
+                    avatar: true
+                }
+            }
         },
         orderBy: {
             created_at: "desc",
@@ -20,7 +25,7 @@ async function getComments(tweetId: number) {
 export default async function CommentsList({ tweetId }: { tweetId: number }) {
     const comments = await getComments(tweetId);
     return (
-        <div className="w-full text-white flex flex-col">
+        <div className="w-full text-white flex flex-col gap-2">
             {comments.map((comment) => (
                 <Comment key={comment.id} {...comment} />
             ))}

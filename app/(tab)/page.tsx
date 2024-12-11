@@ -9,7 +9,8 @@ async function getInitialTweets() {
             created_at: "desc"
         },
         include: {
-            user: true
+            user: true,
+            _count: true
         }
     });
     return tweets;
@@ -20,7 +21,7 @@ export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
 export default async function Products() {
     const initialTweets = await getInitialTweets()
     return (
-        <div className="p-5 flex flex-col gap-5">
+        <div className="p-5 flex flex-col gap-5 h-screen">
             <TweetLists initialTweets={initialTweets} />
         </div>
     )

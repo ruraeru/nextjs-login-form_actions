@@ -1,7 +1,11 @@
+import { getUserAvatar } from "@/service/userService";
 import { HomeIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/solid";
+import Image from "next/image";
 import Link from "next/link";
 
-export default function Navigation() {
+
+export default async function Navigation() {
+    const userInfo = await getUserAvatar();
     return (
         <div>
             <ul className="flex flex-col gap-5 *:p-5 items-center 
@@ -30,9 +34,24 @@ export default function Navigation() {
                         <MagnifyingGlassIcon className="size-7" />
                     </Link>
                 </li>
-                <li>
+                {/* <li>
                     <Link href="/profile">
                         <UserIcon className="size-7" />
+                    </Link>
+                </li> */}
+                <li>
+                    {/* <Link href="/profile"> */}
+                    <Link href={`/users/${userInfo?.username}`}>
+                        {userInfo?.avatar !== null ? (
+                            <Image
+                                width={40}
+                                height={40}
+                                src={userInfo!.avatar}
+                                alt={userInfo?.username!}
+                            />
+                        ) : (
+                            <UserIcon className="size-7" />
+                        )}
                     </Link>
                 </li>
             </ul>

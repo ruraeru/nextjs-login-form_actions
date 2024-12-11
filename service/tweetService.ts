@@ -1,10 +1,11 @@
 "use server";
 import db from "@/lib/db";
+import getSession from "@/lib/session";
 import { Prisma } from "@prisma/client";
 const LIMIT_NUMBER = 2;
 export const getInitialTweets = async () => {
   const tweets = db.tweet.findMany({
-    include: { user: true },
+    include: { user: true, _count: true },
     take: LIMIT_NUMBER,
     orderBy: {
       created_at: "desc",
@@ -15,7 +16,7 @@ export const getInitialTweets = async () => {
 export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
 export async function getTweetsByPage(page: number) {
   const tweets = await db.tweet.findMany({
-    include: { user: true },
+    include: { user: true, _count: true },
     skip: LIMIT_NUMBER * (page - 1),
     take: LIMIT_NUMBER,
     orderBy: {
@@ -41,4 +42,26 @@ export async function getLikeResponse(tweetId: number) {
     },
   });
   console.log(likeResponse);
+}
+
+export async function getLikeStatus(tweetId: number) {
+  const session = await getSession();
+  const isLiked = await db.like.findUnique({
+    where: {
+      id: {
+        tweetId,
+        userId: session.id!,
+      },
+    },
+  });
+
+  const likeCount = await db.like.count({
+    where: {
+      tweetId,
+    },
+  });
+  return {
+    likeCount,
+    isLiked: Boolean(isLiked),
+  };
 }

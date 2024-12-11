@@ -1,8 +1,12 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
-import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/solid";
+import { UserIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { revalidatePath } from "next/cache";
+import Image from "next/image";
+import Link from "next/link";
+import LikeButton from "./like-button";
+import { getLikeResponseStatus } from "@/service/commentService";
 
 interface CommentProps {
     id: number;
@@ -12,6 +16,11 @@ interface CommentProps {
     userId: number;
     tweetId: number;
     likes: number;
+    user: {
+        username: string;
+        email: string;
+        avatar: string | null;
+    }
 }
 
 async function getIsOwner(userId: number) {
@@ -19,41 +28,60 @@ async function getIsOwner(userId: number) {
     if (session.id) {
         return session.id === userId;
     }
-
     return false;
 }
 
-export default async function Comment({ id, payload, created_at, userId, likes }: CommentProps) {
+export default async function Comment({ id, payload, created_at, userId, likes, user, tweetId }: CommentProps) {
     const isOwner = await getIsOwner(userId);
     const onDelete = async () => {
         "use server"
-        const a = await db.response.delete({
+        await db.response.delete({
             where: {
                 id,
             }
         })
         revalidatePath(`tweets/${id}`)
     }
+    const { likeCount, isLiked } = await getLikeResponseStatus(id);
     return (
-        <div className="flex items-center justify-between">
-            <div>
-                <h3>{payload}</h3>
-                <span>{formatToTimeAgo(created_at.toString())}</span>
-            </div>
+        <div className="relative p-2
+         bg-cyan-50 text-black">
+            <Link href={`/users/${user.username}`} className="flex gap-1">
+                <div>
+                    {user.avatar !== null ? (
+                        <Image
+                            className="rounded-full"
+                            width={40}
+                            height={40}
+                            src={user.avatar}
+                            alt={user.username}
+                        />
+                    ) : <UserIcon className="size-10 rounded-full" />}
+                </div>
+                <div className="flex items-center">
+                    <div className="flex flex-col leading-3">
+                        <span className="text-lg font-semibold leading-3">{user.username} </span>
+                        <small className="text-xs leading-5">@{user.username}</small>
+                    </div>
+                    <div>
+                        <p>·</p>
+                    </div>
+                    <div>
+                        <small>{formatToTimeAgo(created_at.toString())}</small>
+                    </div>
+                </div>
+            </Link>
+            <h3 className="break-all">{payload}</h3>
             {
                 isOwner ? (
-                    <div onClick={onDelete} >
-                        <button>
-                            삭제하기
-                        </button>
+                    <div onClick={onDelete} className="absolute right-0 top-0 cursor-pointer">
+                        <XMarkIcon className="size-5" />
                     </div>
                 ) : ""
             }
-            <div className="flex items-center gap-2">
-                <ArrowUpIcon className="size-4" />
-                <p>{likes}</p>
-                <ArrowDownIcon className="size-4" />
+            <div className="">
+                <LikeButton commentLike isLiked={isLiked} likeCount={likeCount} tweetId={id} />
             </div>
-        </div>
+        </div >
     )
 }

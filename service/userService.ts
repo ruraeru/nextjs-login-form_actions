@@ -28,16 +28,14 @@ export async function isOwner(username: string) {
       username,
     },
     include: {
-      response: true,
-      like: true,
       tweet: {
         include: {
+          _count: true,
           user: true,
         },
       },
     },
   });
-
   if (!user) {
     notFound();
   }
@@ -74,6 +72,20 @@ export async function getUserAuth() {
     select: {
       id: true,
       password: true,
+    },
+  });
+  return user;
+}
+
+export async function getUserAvatar() {
+  const session = await getSession();
+  const user = await db.user.findUnique({
+    where: {
+      id: session.id,
+    },
+    select: {
+      avatar: true,
+      username: true,
     },
   });
   return user;

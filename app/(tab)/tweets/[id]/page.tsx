@@ -3,9 +3,11 @@ import Button from "@/components/button";
 import Input from "@/components/input";
 import LikeButton from "@/components/like-button";
 import CommentsList from "@/components/list-comments";
+import InfoBar from "@/components/tweet-info-bar";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
+import { getLikeStatus } from "@/service/tweetService";
 import { AtSymbolIcon, EyeIcon, UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -29,11 +31,7 @@ async function tweetDetail(id: number) {
                     }
                 },
                 response: true,
-                _count: {
-                    select: {
-                        response: true
-                    }
-                }
+                _count: true
             }
         });
         return tweet;
@@ -42,29 +40,6 @@ async function tweetDetail(id: number) {
         return null;
     }
 }
-
-async function getLikeStatus(tweetId: number) {
-    const session = await getSession();
-    const isLiked = await db.like.findUnique({
-        where: {
-            id: {
-                tweetId,
-                userId: session.id!
-            }
-        }
-    })
-
-    const likeCount = await db.like.count({
-        where: {
-            tweetId
-        }
-    })
-    return {
-        likeCount,
-        isLiked: Boolean(isLiked)
-    }
-}
-
 
 export default async function DetailTweet({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -79,12 +54,12 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
     console.log(tweet.photo)
     const { likeCount, isLiked } = await getLikeStatus(paramsId)
     return (
-        <div className="p-5 text-white">
+        <div className="p-5 text-white flex flex-col gap-2">
             <div className="flex items-center gap-2 mb-2">
                 {tweet.user.avatar ? (
                     <Image
-                        width={28}
-                        height={28}
+                        width={40}
+                        height={40}
                         className="size-7 rounded-full"
                         src={tweet.user.avatar!}
                         alt={tweet.user.username}
@@ -92,9 +67,8 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
                 ) : (
                     <UserIcon className="size-7 rounded-full" />
                 )}
-
                 <div>
-                    <span className="text-sm font-semibold">{tweet.user.username}</span>
+                    <span className="text-md font-semibold">{tweet.user.username}</span>
                     <div className="text-xs">
                         <span>{formatToTimeAgo(tweet.created_at.toString())}</span>
                     </div>
@@ -111,10 +85,7 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
                 />
             }
             <div className="flex flex-col gap-5 items-start">
-                <div className="flex items-center gap-2 text-neutral-400 text-sm">
-                    <EyeIcon className="size-5" />
-                    <span>조회 {tweet.views}</span>
-                </div>
+                <InfoBar {...tweet._count} views={tweet.views} />
                 <LikeButton isLiked={isLiked} likeCount={likeCount} tweetId={paramsId} />
             </div>
             <AddComment tweetId={paramsId} />
