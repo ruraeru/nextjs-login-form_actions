@@ -24,14 +24,14 @@ export async function uploadTweet(_: any, formData: FormData) {
   };
   if (data.photo instanceof File) {
     const photoData = await data.photo.arrayBuffer();
-    await fs.appendFile(
-      `./public/images/${data.photo.name}`,
-      Buffer.from(photoData)
-    );
     if (data.photo.size === 0) {
       data.photo = null;
     } else {
-      data.photo = `/images/${data.photo.name}`;
+      await fs.appendFile(
+        `./public/${data.photo.name}`,
+        Buffer.from(photoData)
+      );
+      data.photo = `./public/${data.photo.name}`;
     }
   }
   const result = tweetSchema.safeParse(data);
