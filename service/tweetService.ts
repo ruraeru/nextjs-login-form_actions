@@ -33,3 +33,12 @@ export async function getPaginatedTweets(page: number) {
   const isLastPage = TWEETS_TOTAL_COUNT <= LIMIT_NUMBER * page;
   return { tweets, isLastPage };
 }
+
+export async function getLikeResponse(tweetId: number) {
+  const likeResponse = await db.tweet.findUnique({
+    where: {
+      id: tweetId,
+    },
+  });
+  console.log(likeResponse);
+}

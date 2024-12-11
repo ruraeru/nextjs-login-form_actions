@@ -76,6 +76,7 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
     if (!tweet) {
         return notFound()
     }
+    console.log(tweet.photo)
     const { likeCount, isLiked } = await getLikeStatus(paramsId)
     return (
         <div className="p-5 text-white">
@@ -101,12 +102,14 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
             </div>
             <h2 className="text-lg font-semibold">{tweet.title}</h2>
             <p className="mb-5">{tweet.tweet}</p>
-            {tweet.photo && <Image
-                width={600}
-                height={400}
-                src={tweet.photo}
-                alt={tweet.title}
-            />}
+            {tweet.photo &&
+                <Image
+                    width={600}
+                    height={400}
+                    src={tweet.photo}
+                    alt={tweet.title}
+                />
+            }
             <div className="flex flex-col gap-5 items-start">
                 <div className="flex items-center gap-2 text-neutral-400 text-sm">
                     <EyeIcon className="size-5" />

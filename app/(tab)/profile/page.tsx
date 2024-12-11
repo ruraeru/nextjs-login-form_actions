@@ -24,7 +24,7 @@ export default async function Profile() {
         "use server";
         const session = await getSession();
         session.destroy();
-        redirect("/")
+        redirect("/");
     }
     return (
         <div>

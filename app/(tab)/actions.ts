@@ -24,14 +24,15 @@ export async function uploadTweet(_: any, formData: FormData) {
   };
   if (data.photo instanceof File) {
     const photoData = await data.photo.arrayBuffer();
+    const randomFileName = Date.now();
+    await fs.appendFile(
+      `./public/images/${randomFileName}.png`,
+      Buffer.from(photoData)
+    );
     if (data.photo.size === 0) {
       data.photo = null;
     } else {
-      await fs.appendFile(
-        `./public/${data.photo.name}`,
-        Buffer.from(photoData)
-      );
-      data.photo = `./public/${data.photo.name}`;
+      data.photo = `/images/${randomFileName}.png`;
     }
   }
   const result = tweetSchema.safeParse(data);
@@ -44,7 +45,7 @@ export async function uploadTweet(_: any, formData: FormData) {
       data: {
         title,
         tweet,
-        photo: data.photo !== null ? data.photo : null,
+        photo: photo !== null ? photo : null,
         user: {
           connect: {
             id: session.id,

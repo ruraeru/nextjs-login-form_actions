@@ -1,31 +1,73 @@
 import Link from "next/link";
 import { User } from "@prisma/client";
 import { formatToTimeAgo } from "@/lib/utils";
+import Image from "next/image";
+import { ChartBarIcon } from "@heroicons/react/24/solid";
+
 export default function ListTweet({
     title,
     tweet,
     created_at,
     id,
     user,
+    photo,
+    views,
 }: {
     title: string;
     tweet: string;
     created_at: Date;
     id: number;
     user: User;
+    photo: string | null;
+    views: number;
 }) {
     return (
-        <Link href={`/tweets/${id}`} className="flex flex-col p-10 rounded-2xl *:text-stone-700 bg-stone-200">
+        <Link href={`/tweets/${id}`} className="flex flex-col p-5 rounded-2xl *:text-white border-2 gap-2">
             <div className="flex items-center justify-between">
-                <span className="text-xl font-bold">{user.username}</span>
-                <span className="text-sm text-stone-400">{formatToTimeAgo(created_at.toString())}</span>
+                <div className="flex items-center gap-2 justify-start w-full">
+                    {user.avatar !== null && (
+                        <div>
+                            <Image
+                                className="rounded-full"
+                                width={40}
+                                height={40}
+                                src={user.avatar}
+                                alt={user.username}
+                            />
+                        </div>
+                    )}
+                    <div className="flex flex-col gap-0 justify-center">
+                        <h1 className="text-xl font-bold">{user.username}</h1>
+                        <span className="text-xs text-stone-400">@{user.username}</span>
+                    </div>
+                </div>
+                <span className="text-xs text-stone-400 whitespace-nowrap">
+                    {formatToTimeAgo(created_at.toString())}
+                </span>
             </div>
-            <div className="flex items-center justify-between">
-                <h1 className="text-lg truncate w-1/2">제목 : {title}</h1>
+            <div className="flex flex-col justify-center gap-2">
+                <div className="*:truncate w-1/2">
+                    <h1 className="text-xl">{title}</h1>
+                    <p className="text-sm">
+                        {tweet}
+                    </p>
+                </div>
+                {photo !== null && (
+                    <Image
+                        className="rounded-md"
+                        width={2000}
+                        height={2000}
+                        src={photo}
+                        alt={title}
+                    />
+                )}
             </div>
-            <p className="text-lg truncate w-1/2">
-                {tweet}
-            </p>
+            <div>
+                <span className="text-md text-stone-400 flex items-center gap-1 w-full justify-end">
+                    <ChartBarIcon className="size-4" />
+                    {views}
+                </span>
+            </div>
         </Link>
     );
 }

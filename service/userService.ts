@@ -28,6 +28,8 @@ export async function isOwner(username: string) {
       username,
     },
     include: {
+      response: true,
+      like: true,
       tweet: {
         include: {
           user: true,
@@ -39,7 +41,6 @@ export async function isOwner(username: string) {
   if (!user) {
     notFound();
   }
-
   const isOwn = Boolean(session.id === user.id);
   return {
     isOwn,

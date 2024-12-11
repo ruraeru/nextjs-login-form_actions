@@ -11,6 +11,8 @@ import db from "@/lib/db";
 import { z } from "zod";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
 const checkEmailExists = async (email: string) => {
   const user = await db.user.findUnique({
@@ -66,13 +68,12 @@ export async function login(prevState: any, formData: FormData) {
       const session = await getSession();
       session.id = user!.id;
       await session.save();
-      return redirect("/profile");
+      redirect("/");
     } else {
       return {
         fieldErrors: {
           password: ["wrong password"],
           email: [],
-          // username: [],
         },
       };
     }

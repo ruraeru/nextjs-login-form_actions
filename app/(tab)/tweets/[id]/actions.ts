@@ -6,7 +6,6 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
 export async function likePost(tweetId: number) {
-  await new Promise((r) => setTimeout(r, 100000));
   const session = await getSession();
   try {
     await db.like.create({
@@ -19,7 +18,6 @@ export async function likePost(tweetId: number) {
   } catch (e) {}
 }
 export async function dislikePost(tweetId: number) {
-  await new Promise((r) => setTimeout(r, 100000));
   const session = await getSession();
   try {
     await db.like.delete({

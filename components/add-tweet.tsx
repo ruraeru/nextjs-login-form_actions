@@ -55,17 +55,19 @@ export default function AddTweet() {
                 {preview ? (
                     <label
                         htmlFor="photo"
-                        className={`border-2 aspect-square flex items-center justify-center flex-col border-none rounded-3xl relative
-                        bg-center bg-no-repeat`}
+                        className={`border-2 border-neutral-600 aspect-square flex items-center justify-center flex-col rounded-3xl relative
+                        bg-center bg-no-repeat bg-contain`}
                         style={{
                             backgroundImage: `url(${preview})`
                         }}
                     >
-                        <XCircleIcon
-                            onClick={() => setPreview("")}
-                            className="size-10 absolute right-5 top-5
+                        <div className="w-full bg-white">
+                            <XCircleIcon
+                                onClick={() => setPreview("")}
+                                className=" size-10 absolute right-5 top-5
                                 text-black"
-                        />
+                            />
+                        </div>
                     </label>
                 ) : null}
                 <input
@@ -76,11 +78,13 @@ export default function AddTweet() {
                     accept="image/jpg, image/png, image/jpeg"
                     className="hidden"
                 />
-                <div className="flex items-center justify-around h-10 py-10">
+                <div className="flex items-center justify-between h-10 py-10">
                     <label htmlFor="photo">
-                        <PhotoIcon className="size-5 cursor-pointer" />
+                        <PhotoIcon className="size-10 cursor-pointer" />
                     </label>
-                    <Button text="게시하기"></Button>
+                    <Button style={{
+                        width: "200px"
+                    }} text="게시하기"></Button>
                 </div>
             </form>
         </div >
