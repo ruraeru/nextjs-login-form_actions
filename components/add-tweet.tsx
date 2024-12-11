@@ -80,9 +80,7 @@ export default function AddTweet() {
                     <label htmlFor="photo">
                         <PhotoIcon className="size-5 cursor-pointer" />
                     </label>
-                    <Button style={{
-                        width: "240px"
-                    }} height="10" text="게시하기"></Button>
+                    <Button text="게시하기"></Button>
                 </div>
             </form>
         </div >

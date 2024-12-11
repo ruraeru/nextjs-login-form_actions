@@ -16,5 +16,5 @@ export async function isOwner(username: string) {
       },
     },
   });
-  return Boolean(session.id === isOwn?.id);
+  return Boolean(session.id === user?.id);
 }

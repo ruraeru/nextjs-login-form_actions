@@ -43,7 +43,7 @@ export default function AddComment({ tweetId }: { tweetId: number }) {
                 </div>
                 <div className="flex items-center gap-2 justify-between">
                     <PhotoIcon className="size-7" />
-                    <Button height="8" width="16" text="Reply" />
+                    <Button text="Reply" />
                 </div>
             </form>
             {state.isSending ? (
