@@ -2,7 +2,7 @@ import Link from "next/link";
 import { User } from "@prisma/client";
 import { formatToTimeAgo } from "@/lib/utils";
 import Image from "next/image";
-import { ChartBarIcon, ChatBubbleLeftIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
+import { ChartBarIcon, ChatBubbleLeftIcon, HandThumbUpIcon, UserIcon } from "@heroicons/react/24/solid";
 import InfoBar from "./tweet-info-bar";
 
 export default function ListTweet({
@@ -28,10 +28,10 @@ export default function ListTweet({
     }
 }) {
     return (
-        <Link href={`/tweets/${id}`} className="flex flex-col p-5 rounded-2xl *:text-white border-2 gap-2 bg-neutral-900">
+        <Link href={`/tweets/${id}`} className="flex flex-col p-5 rounded-2xl *:text-white border-2 gap-2 bg-neutral-900 min-w-96">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 justify-start w-full">
-                    {user.avatar !== null && (
+                    {user.avatar !== null ? (
                         <div>
                             <Image
                                 className="rounded-full"
@@ -41,7 +41,7 @@ export default function ListTweet({
                                 alt={user.username}
                             />
                         </div>
-                    )}
+                    ) : <UserIcon className="size-10" />}
                     <div className="flex flex-col gap-0 justify-center">
                         <h1 className="text-xl font-bold">{user.username}</h1>
                         <span className="text-xs text-stone-400">@{user.username}</span>
