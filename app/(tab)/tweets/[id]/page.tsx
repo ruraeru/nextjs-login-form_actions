@@ -1,14 +1,11 @@
 import AddComment from "@/components/add-comment";
-import Button from "@/components/button";
-import Input from "@/components/input";
 import LikeButton from "@/components/like-button";
 import CommentsList from "@/components/list-comments";
 import InfoBar from "@/components/tweet-info-bar";
 import db from "@/lib/db";
-import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
 import { getLikeStatus } from "@/service/tweetService";
-import { AtSymbolIcon, EyeIcon, UserIcon } from "@heroicons/react/24/solid";
+import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -51,7 +48,6 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
     if (!tweet) {
         return notFound()
     }
-    console.log(tweet.photo)
     const { likeCount, isLiked } = await getLikeStatus(paramsId)
     return (
         <div className="p-5 text-white flex flex-col gap-2">

@@ -5,14 +5,11 @@ import {
   PASSWORD_MIN_LENGTH,
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
-  USERNAME_MIN_LENGTH,
 } from "@/lib/constants";
 import db from "@/lib/db";
 import { z } from "zod";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
 
 const checkEmailExists = async (email: string) => {
   const user = await db.user.findUnique({

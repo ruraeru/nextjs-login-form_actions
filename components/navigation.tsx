@@ -3,7 +3,6 @@ import { HomeIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/sol
 import Image from "next/image";
 import Link from "next/link";
 
-
 export default async function Navigation() {
     const userInfo = await getUserAvatar();
     return (

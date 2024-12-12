@@ -2,7 +2,6 @@ import Link from "next/link";
 import { User } from "@prisma/client";
 import { formatToTimeAgo } from "@/lib/utils";
 import Image from "next/image";
-import { ChartBarIcon, ChatBubbleLeftIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
 import InfoBar from "./tweet-info-bar";
 
 export default function ListTweet({

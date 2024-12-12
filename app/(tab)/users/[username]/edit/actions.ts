@@ -55,7 +55,7 @@ interface FormState {
   }> | null;
 }
 export async function editProfile(
-  prevState: any,
+  prevState: unknown,
   formData: FormData
 ): Promise<FormState> {
   const data = {
