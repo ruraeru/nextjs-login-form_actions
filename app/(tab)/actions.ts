@@ -25,15 +25,15 @@ export async function uploadTweet(_: any, formData: FormData) {
   if (data.photo instanceof File) {
     const photoData = await data.photo.arrayBuffer();
     const randomFileName = Date.now();
-    await fs.appendFile(
-      `./public/images/tweets/${randomFileName}.png`,
-      Buffer.from(photoData)
-    );
     if (data.photo.size === 0) {
       data.photo = null;
     } else {
       data.photo = `/images/tweets/${randomFileName}.png`;
     }
+    await fs.appendFile(
+      `./public/images/tweets/${randomFileName}.png`,
+      Buffer.from(photoData)
+    );
   }
   const result = tweetSchema.safeParse(data);
   if (!result.success) {
