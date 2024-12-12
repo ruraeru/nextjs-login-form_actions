@@ -47,13 +47,13 @@ export async function addComment(tweetId: number, formData: FormData) {
     const photoData = await data.photo.arrayBuffer();
     const randomFileName = Date.now();
     await fs.appendFile(
-      `./public/images/${randomFileName}.png`,
+      `./public/images/comments/${randomFileName}.png`,
       Buffer.from(photoData)
     );
     if (data.photo.size === 0) {
       data.photo = null;
     } else {
-      data.photo = `/images/${randomFileName}.png`;
+      data.photo = `/images/comments/${randomFileName}.png`;
     }
   }
   const result = formSchema.safeParse(data);
