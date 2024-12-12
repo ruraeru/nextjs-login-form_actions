@@ -41,7 +41,6 @@ export async function getLikeResponse(tweetId: number) {
       id: tweetId,
     },
   });
-  console.log(likeResponse);
 }
 
 export async function getLikeStatus(tweetId: number) {

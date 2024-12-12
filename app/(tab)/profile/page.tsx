@@ -1,7 +1,8 @@
 import Button from "@/components/button";
 import db from "@/lib/db";
+import { logOut } from "@/lib/log-out";
 import getSession from "@/lib/session"
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 async function getUser() {
     const session = await getSession();
@@ -20,14 +21,8 @@ async function getUser() {
 
 export default async function Profile() {
     const user = await getUser();
-    const logOut = async () => {
-        "use server";
-        const session = await getSession();
-        session.destroy();
-        redirect("/");
-    }
     return (
-        <div>
+        <div className="mt-10">
             <h1>Welcome! {user?.username}</h1>
             <form action={logOut}>
                 <Button text="Log out" />

@@ -2,7 +2,7 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
 import { UserIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import LikeButton from "./like-button";
@@ -16,6 +16,7 @@ interface CommentProps {
     userId: number;
     tweetId: number;
     likes: number;
+    photo: string | null;
     user: {
         username: string;
         email: string;
@@ -31,21 +32,20 @@ async function getIsOwner(userId: number) {
     return false;
 }
 
-export default async function Comment({ id, payload, created_at, userId, likes, user, tweetId }: CommentProps) {
+export default async function Comment({ id, payload, created_at, userId, user, photo }: CommentProps) {
     const isOwner = await getIsOwner(userId);
     const onDelete = async () => {
         "use server"
         await db.response.delete({
             where: {
-                id,
+                id
             }
-        })
-        revalidatePath(`tweets/${id}`)
+        });
+        revalidateTag("tweet-comments")
     }
     const { likeCount, isLiked } = await getLikeResponseStatus(id);
     return (
-        <div className="relative p-2
-         bg-cyan-50 text-black">
+        <div className="relative p-2 border-2 border-zinc-500 rounded-xl">
             <Link href={`/users/${user.username}`} className="flex gap-1">
                 <div>
                     {user.avatar !== null ? (
@@ -71,15 +71,25 @@ export default async function Comment({ id, payload, created_at, userId, likes, 
                     </div>
                 </div>
             </Link>
-            <h3 className="break-all">{payload}</h3>
+            <div>
+                <h3 className="break-all">{payload}</h3>
+                {photo !== null && (
+                    <Image
+                        width={2000}
+                        height={2000}
+                        src={photo}
+                        alt="tse"
+                    />
+                )}
+            </div>
             {
                 isOwner ? (
-                    <div onClick={onDelete} className="absolute right-0 top-0 cursor-pointer">
+                    <div onClick={onDelete} className="absolute right-2 top-2 cursor-pointer">
                         <XMarkIcon className="size-5" />
                     </div>
                 ) : ""
             }
-            <div className="">
+            <div className="mt-2">
                 <LikeButton commentLike isLiked={isLiked} likeCount={likeCount} tweetId={id} />
             </div>
         </div >

@@ -1,27 +1,45 @@
 "use client"
 
-import { PhotoIcon, UserIcon } from "@heroicons/react/24/solid";
+import { PhotoIcon, UserIcon, XCircleIcon } from "@heroicons/react/24/solid";
 import Button from "./button";
 import Input from "./input";
 import { useOptimistic, useState } from "react";
 import { addComment } from "@/app/(tab)/tweets/[id]/actions";
+import { ALLOWED_FILE_TYPE, MAX_FILE_SIZE } from "./add-tweet";
 
 export default function AddComment({ tweetId }: { tweetId: number }) {
+    const [preview, setPreview] = useState("");
     const [comment, setComment] = useState("")
     const [isSending, setSending] = useState(false);
     const [state, reducerFn] = useOptimistic({ isSending, comment }, (prevState, newComment: string) => ({
         isSending: !prevState.isSending,
         comment: newComment,
     }));
-
     const onClick = async (formData: FormData) => {
         reducerFn(comment);
         await addComment(tweetId, formData);
+        setPreview("");
         setComment("");
         setSending(false);
     }
     const onChange = (e: React.FormEvent<HTMLInputElement>) => {
         setComment(e.currentTarget.value)
+    }
+
+    const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { files } = e.target;
+        if (!files) return;
+        const file = files[0];
+
+        if (ALLOWED_FILE_TYPE.indexOf(file.type.split("/")[1]) === -1) {
+            alert("file upload is only .png, .jpg, .jpeg");
+            return;
+        }
+        if (file.size > MAX_FILE_SIZE) {
+            alert("file is very big!!!!");
+            return;
+        }
+        setPreview(URL.createObjectURL(file));
     }
     return (
         <>
@@ -37,8 +55,36 @@ export default function AddComment({ tweetId }: { tweetId: number }) {
                         placeholder="Post your reply"
                     />
                 </div>
+                {preview ? (
+                    <label
+                        htmlFor="photo"
+                        className={`border-2 border-neutral-600 aspect-square flex items-center justify-center flex-col rounded-3xl relative
+                        bg-center bg-no-repeat bg-contain`}
+                        style={{
+                            backgroundImage: `url(${preview})`
+                        }}
+                    >
+                        <div className="w-full bg-white">
+                            <XCircleIcon
+                                onClick={() => setPreview("")}
+                                className=" size-10 absolute right-5 top-5
+                                text-black"
+                            />
+                        </div>
+                    </label>
+                ) : null}
+                <input
+                    onChange={onImageChange}
+                    type="file"
+                    id="photo"
+                    name="photo"
+                    accept="image/jpg, image/png, image/jpeg"
+                    className="hidden"
+                />
                 <div className="flex items-center gap-2 justify-between">
-                    <PhotoIcon className="size-7" />
+                    <label htmlFor="photo">
+                        <PhotoIcon className="size-7" />
+                    </label>
                     <Button text="Reply" />
                 </div>
             </form>

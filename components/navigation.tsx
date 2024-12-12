@@ -9,6 +9,7 @@ export default async function Navigation() {
     return (
         <div>
             <ul className="flex flex-col gap-5 *:p-5 items-center 
+            bg-neutral-800
             left-0 border-r-2 
             fixed
             min-[640px]:h-screen
@@ -34,16 +35,16 @@ export default async function Navigation() {
                         <MagnifyingGlassIcon className="size-7" />
                     </Link>
                 </li>
-                {/* <li>
+                <li>
                     <Link href="/profile">
                         <UserIcon className="size-7" />
                     </Link>
-                </li> */}
+                </li>
                 <li>
-                    {/* <Link href="/profile"> */}
                     <Link href={`/users/${userInfo?.username}`}>
                         {userInfo?.avatar !== null ? (
                             <Image
+                                className="rounded-full"
                                 width={40}
                                 height={40}
                                 src={userInfo!.avatar}

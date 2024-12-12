@@ -17,7 +17,7 @@ export async function likeComment(responseId: number) {
       },
     });
     console.log(a);
-    revalidateTag(`like-status-${responseId}`);
+    revalidateTag(`commnet-like-status-${responseId}`);
   } catch (e) {}
 }
 export async function dislikeComment(responseId: number) {
@@ -31,7 +31,7 @@ export async function dislikeComment(responseId: number) {
         },
       },
     });
-    revalidateTag(`like-status-${responseId}`);
+    revalidateTag(`commnet-like-status-${responseId}`);
   } catch (e) {}
 }
 

@@ -6,7 +6,7 @@ import Button from "./button";
 import { useActionState, useState } from "react";
 import { uploadTweet } from "@/app/(tab)/actions";
 
-export const MAX_FILE_SIZE = 4000000;
+export const MAX_FILE_SIZE = 1000000;
 export const ALLOWED_FILE_TYPE = ["png", "jpg", "jpeg"];
 
 export default function AddTweet() {

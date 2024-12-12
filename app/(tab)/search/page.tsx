@@ -12,7 +12,7 @@ import Image from "next/image";
 export default function Search() {
     const [state, dispatch] = useActionState(searchTweet, null);
     return (
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 mt-5">
             <form action={dispatch}>
                 <Input
                     labelIcon={<MagnifyingGlassIcon />}

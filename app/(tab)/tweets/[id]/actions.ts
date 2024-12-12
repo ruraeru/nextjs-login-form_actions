@@ -1,5 +1,6 @@
 "use server";
 
+import fs from "fs/promises";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { revalidatePath, revalidateTag } from "next/cache";
@@ -42,18 +43,33 @@ export async function addComment(tweetId: number, formData: FormData) {
     comment: formData.get("comment"),
     photo: formData.get("photo"),
   };
+  if (data.photo instanceof File) {
+    const photoData = await data.photo.arrayBuffer();
+    const randomFileName = Date.now();
+    await fs.appendFile(
+      `./public/images/${randomFileName}.png`,
+      Buffer.from(photoData)
+    );
+    if (data.photo.size === 0) {
+      data.photo = null;
+    } else {
+      data.photo = `/images/${randomFileName}.png`;
+    }
+  }
   const result = formSchema.safeParse(data);
-  const session = await getSession();
-  const addComment = await db.response.create({
-    data: {
-      tweetId,
-      payload: result.data?.comment!,
-      userId: session.id!,
-    },
-    select: {
-      payload: true,
-    },
-  });
+  if (!result.success) {
+    return result.error.flatten();
+  } else {
+    const { comment, photo } = result.data;
+    const session = await getSession();
+    await db.response.create({
+      data: {
+        tweetId,
+        payload: comment,
+        photo: photo !== null ? photo : null,
+        userId: session.id!,
+      },
+    });
+  }
   revalidatePath(`/tweets/${tweetId}`);
-  return addComment.payload;
 }
