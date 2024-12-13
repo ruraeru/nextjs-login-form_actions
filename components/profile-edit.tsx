@@ -15,6 +15,7 @@ export default function ProfileEdit({ userInfo }: { userInfo: userInfoType }) {
                 type="url"
                 name="avatar"
                 placeholder="아바타"
+                defaultValue={userInfo.avatar !== null ? userInfo.avatar : ""}
             />
             <Input
                 labelIcon={<UserIcon />}

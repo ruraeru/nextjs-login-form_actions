@@ -2,7 +2,6 @@ import { getUserAvatar } from "@/service/userService";
 import { HomeIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
-import ImgContainer from "./img-container";
 
 export default async function Navigation() {
     const userInfo = await getUserAvatar();
@@ -44,17 +43,17 @@ export default async function Navigation() {
                 </li>
                 <li className="cursor-pointer">
                     <Link href={`/users/${userInfo?.username}`}>
-                        {userInfo?.avatar ? (
-                            <ImgContainer
-                                rounded="full"
-                                size="40"
-                                cover="cover"
-                                src={userInfo.avatar}
-                                alt={userInfo.username}
-                            />
-                        ) : (
-                            <UserIcon className="size-7" />
-                        )}
+                        <div className="relative size-10 rounded-full overflow-hidden">
+                            {userInfo?.avatar ? (
+                                <Image
+                                    fill
+                                    src={userInfo.avatar}
+                                    alt={userInfo.username}
+                                />
+                            ) : (
+                                <UserIcon className="size-7" />
+                            )}
+                        </div>
                     </Link>
                 </li>
             </ul>
