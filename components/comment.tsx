@@ -73,14 +73,18 @@ export default async function Comment({ id, payload, created_at, userId, user, p
             </Link>
             <div>
                 <h3 className="break-all">{payload}</h3>
-                {photo !== null && (
-                    <Image
-                        width={2000}
-                        height={2000}
-                        src={photo}
-                        alt="tse"
-                    />
-                )}
+                <div className="relative h-[568px]">
+                    {photo !== null && (
+                        <Image
+                            className="object-contain"
+                            fill
+                            priority
+                            sizes="(max-width-468px) (max-height-568px)"
+                            src={photo}
+                            alt={id + ""}
+                        />
+                    )}
+                </div>
             </div>
             {
                 isOwner ? (

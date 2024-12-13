@@ -44,18 +44,25 @@ export default function AddComment({ tweetId }: { tweetId: number }) {
     return (
         <>
             <form action={onClick} className="flex flex-col gap-2">
-                <div className="flex items-center justify-between gap-2">
-                    <UserIcon className="size-7" />
+                <div className="flex flex-col items-center justify-between gap-5">
+                    <div className="flex items-center justify-start w-full gap-2">
+                        <Input
+                            labelIcon={<UserIcon className="size-7" />}
+                            value={state.comment}
+                            onChange={onChange}
+                            name="comment"
+                            type="text"
+                            required
+                            placeholder="Post your reply"
+                        />
+                    </div>
                     <Input
-                        value={state.comment}
-                        onChange={onChange}
-                        name="comment"
-                        type="text"
-                        required
-                        placeholder="Post your reply"
+                        labelIcon={<PhotoIcon />}
+                        name="photo"
+                        placeholder="이미지 링크"
                     />
                 </div>
-                {preview ? (
+                {/* {preview ? (
                     <label
                         htmlFor="photo"
                         className={`border-2 border-neutral-600 aspect-square flex items-center justify-center flex-col rounded-3xl relative
@@ -80,7 +87,7 @@ export default function AddComment({ tweetId }: { tweetId: number }) {
                     name="photo"
                     accept="image/jpg, image/png, image/jpeg"
                     className="hidden"
-                />
+                /> */}
                 <div className="flex items-center gap-2 justify-between">
                     <label htmlFor="photo">
                         <PhotoIcon className="size-7" />

@@ -59,9 +59,9 @@ export default function ListTweet({
                     </p>
                 </div>
                 {photo !== null && (
-                    <div className="relative h-[568px]">
+                    <div className="relative min-h-[568px]">
                         <Image
-                            className="rounded-md object-cover"
+                            className="rounded-md object-contain"
                             fill
                             priority
                             sizes="(max-width-468px) (max-height-568px)"

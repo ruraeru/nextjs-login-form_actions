@@ -33,15 +33,34 @@ export async function dislikePost(tweetId: number) {
   } catch (e) {}
 }
 
+const IsUrlImage = async (url: string) => {
+  if (url === "") {
+    return true;
+  }
+  const fetchUrl = await fetch(url);
+  return Boolean(fetchUrl.headers.get("Content-Type")?.includes("image"));
+};
+
 const formSchema = z.object({
   comment: z.string(),
-  photo: z.any(),
+  photo: z.string().superRefine(async (url, ctx) => {
+    const isImage = await IsUrlImage(url);
+    if (!isImage) {
+      ctx.addIssue({
+        code: "custom",
+        message: "This url is not image url",
+        path: ["photo"],
+        fatal: true,
+      });
+      return z.NEVER;
+    }
+  }),
 });
 
 export async function addComment(tweetId: number, formData: FormData) {
   const data = {
     comment: formData.get("comment"),
-    // photo: formData.get("photo"),
+    photo: formData.get("photo"),
   };
   // if (data.photo instanceof File) {
   //   const photoData = await data.photo.arrayBuffer();
@@ -56,7 +75,7 @@ export async function addComment(tweetId: number, formData: FormData) {
   //     data.photo = `/images/comments/${randomFileName}.png`;
   //   }
   // }
-  const result = formSchema.safeParse(data);
+  const result = await formSchema.safeParseAsync(data);
   if (!result.success) {
     return result.error.flatten();
   } else {
@@ -66,7 +85,7 @@ export async function addComment(tweetId: number, formData: FormData) {
       data: {
         tweetId,
         payload: comment,
-        // photo: photo !== null ? photo : null,
+        photo: photo === "" ? null : photo,
         userId: session.id!,
       },
     });

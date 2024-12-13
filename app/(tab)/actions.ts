@@ -5,10 +5,6 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { request } from "http";
-import { IMAGE_URL_REGEX } from "@/lib/constants";
-import { getImageProps } from "next/image";
-import { Url } from "url";
 
 const IsUrlImage = async (url: string) => {
   if (url === "") {
@@ -36,10 +32,7 @@ const tweetSchema = z.object({
       });
       return z.NEVER;
     }
-    return null;
   }),
-  // .regex(IMAGE_URL_REGEX, "이미지 url만 입력해주세요")
-  // .refine(IsUrlImage, "이미지 Url이 아닌데요?"),
 });
 
 export async function uploadTweet(_: any, formData: FormData) {
@@ -62,7 +55,6 @@ export async function uploadTweet(_: any, formData: FormData) {
   //   );
   // }
   const result = await tweetSchema.safeParseAsync(data);
-  console.log("qweqwe", result.data?.photo);
   if (!result.success) {
     return result.error.flatten();
   } else {
