@@ -9,7 +9,7 @@ export default async function EditProfile({ params }: { params: Promise<{ userna
         notFound();
     }
     return (
-        <div>
+        <div className="mt-5 w-full">
             <ProfileEdit userInfo={user} />
         </div>
     )

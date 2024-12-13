@@ -12,9 +12,10 @@ export default async function User({ params }: { params: Promise<{ username: str
             <div>
                 <div>
                     <Image
-                        className="absolute -z-50 rounded-t-3xl"
-                        width={598}
-                        height={199}
+                        className="absolute -z-50 rounded-t-3xl object-cover"
+                        // width={200}
+                        // height={199}
+                        fill
                         src={"https://pbs.twimg.com/profile_banners/44196397/1726163678/1500x500"}
                         alt="profile-banner"
                     />

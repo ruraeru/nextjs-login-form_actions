@@ -16,7 +16,6 @@ export async function likeComment(responseId: number) {
         reponse: true,
       },
     });
-    console.log(a);
     revalidateTag(`commnet-like-status-${responseId}`);
   } catch (e) {}
 }

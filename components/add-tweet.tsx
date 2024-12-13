@@ -51,6 +51,16 @@ export default function AddTweet() {
                         }}
                         errors={state?.fieldErrors.tweet}
                     />
+                    <Input
+                        labelIcon={<PhotoIcon />}
+                        name="photo"
+                        type="url"
+                        placeholder="이미지 링크"
+                        style={{
+                            borderRadius: 0,
+                        }}
+                        errors={state?.fieldErrors.photo}
+                    />
                 </div>
                 {preview ? (
                     <label

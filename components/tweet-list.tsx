@@ -19,13 +19,13 @@ export default function TweetList({ initialTweets }: { initialTweets: InitialTwe
     }, [page]);
     return (
         <div className="flex justify-center">
-            <div className="p-5 flex flex-col gap-5">
+            <div className="p-5 flex flex-col gap-5 w-screen">
                 <AddTweet />
                 {tweets.map((tweet) => (
                     <ListTweet key={tweet.id} {...tweet} />
                 ))}
             </div>
-            <div className="w-full absolute bottom-36 max-w-screen-sm flex mx-auto gap-10 items-center justify-center">
+            <div className="w-full fixed bottom-10 max-w-screen-sm flex mx-auto gap-10 items-center justify-center">
                 <button
                     className="disabled:text-neutral-900"
                     onClick={() => setPage((prev) => (prev === 1 ? prev : prev - 1))}

@@ -10,7 +10,7 @@ import Button from "./button";
 export default function ProfileEdit({ userInfo }: { userInfo: userInfoType }) {
     const [state, dispatch] = useActionState(editProfile, null);
     return (
-        <form action={dispatch} className="w-full flex flex-col gap-5">
+        <form action={dispatch} className="w-full flex flex-col gap-5 justify-center">
             <Input
                 labelIcon={<UserIcon />}
                 name="username"

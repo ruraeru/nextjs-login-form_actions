@@ -51,7 +51,6 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
     if (!tweet) {
         return notFound()
     }
-    console.log(tweet.photo)
     const { likeCount, isLiked } = await getLikeStatus(paramsId)
     return (
         <div className="p-5 text-white flex flex-col gap-2">

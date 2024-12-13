@@ -6,7 +6,6 @@ import { usePathname, useRouter } from "next/navigation";
 export default function HeaderNavigation() {
     const router = useRouter();
     const pathName = usePathname().replace("/", "");
-    console.log(pathName)
     const onClick = () => {
         router.back();
     }

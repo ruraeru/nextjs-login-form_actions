@@ -3,7 +3,6 @@ import { HomeIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/sol
 import Image from "next/image";
 import Link from "next/link";
 
-
 export default async function Navigation() {
     const userInfo = await getUserAvatar();
     return (
@@ -40,14 +39,14 @@ export default async function Navigation() {
                         <UserIcon className="size-7" />
                     </Link>
                 </li>
-                <li>
+                <li className="cursor-pointer">
                     <Link href={`/users/${userInfo?.username}`}>
-                        {userInfo?.avatar !== null ? (
+                        {userInfo?.avatar ? (
                             <Image
                                 className="rounded-full"
                                 width={40}
                                 height={40}
-                                src={userInfo!.avatar}
+                                src={userInfo?.avatar}
                                 alt={userInfo?.username!}
                             />
                         ) : (

@@ -59,13 +59,16 @@ export default function ListTweet({
                     </p>
                 </div>
                 {photo !== null && (
-                    <Image
-                        className="rounded-md"
-                        width={2000}
-                        height={2000}
-                        src={photo}
-                        alt={title}
-                    />
+                    <div className="relative h-[568px]">
+                        <Image
+                            className="rounded-md object-cover"
+                            fill
+                            priority
+                            sizes="(max-width-468px) (max-height-568px)"
+                            src={photo}
+                            alt={title}
+                        />
+                    </div>
                 )}
             </div>
             <InfoBar {..._count} views={views} />
