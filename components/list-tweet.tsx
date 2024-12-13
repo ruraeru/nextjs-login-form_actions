@@ -29,7 +29,7 @@ export default function ListTweet({
     }
 }) {
     return (
-        <Link href={`/tweets/${id}`} className="flex flex-col p-5 rounded-2xl *:text-white border-2 gap-2 bg-neutral-900 min-w-96">
+        <Link href={`/tweets/${id}`} className="flex flex-col p-5 rounded-2xl *:text-white border-2 gap-2 bg-neutral-900">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 justify-start w-full">
                     {user.avatar !== null ? (

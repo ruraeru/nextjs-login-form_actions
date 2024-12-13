@@ -19,7 +19,7 @@ export default function TweetList({ initialTweets }: { initialTweets: InitialTwe
     }, [page]);
     return (
         <div className="flex justify-center">
-            <div className="p-5 flex flex-col gap-5 w-screen">
+            <div className="p-5 flex flex-col gap-5 w-screen justify-center">
                 <AddTweet />
                 {tweets.map((tweet) => (
                     <ListTweet key={tweet.id} {...tweet} />

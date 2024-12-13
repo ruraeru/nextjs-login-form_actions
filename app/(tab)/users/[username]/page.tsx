@@ -12,6 +12,7 @@ export default async function User({ params }: { params: Promise<{ username: str
         <div className="flex flex-col gap-5 pt-5">
             <div>
                 <div>
+
                     <Image
                         className="absolute -z-50 rounded-t-3xl object-cover"
                         // width={200}
