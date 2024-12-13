@@ -41,21 +41,21 @@ const formSchema = z.object({
 export async function addComment(tweetId: number, formData: FormData) {
   const data = {
     comment: formData.get("comment"),
-    photo: formData.get("photo"),
+    // photo: formData.get("photo"),
   };
-  if (data.photo instanceof File) {
-    const photoData = await data.photo.arrayBuffer();
-    const randomFileName = Date.now();
-    await fs.appendFile(
-      `./public/images/comments/${randomFileName}.png`,
-      Buffer.from(photoData)
-    );
-    if (data.photo.size === 0) {
-      data.photo = null;
-    } else {
-      data.photo = `/images/comments/${randomFileName}.png`;
-    }
-  }
+  // if (data.photo instanceof File) {
+  //   const photoData = await data.photo.arrayBuffer();
+  //   const randomFileName = Date.now();
+  //   await fs.appendFile(
+  //     `./public/images/comments/${randomFileName}.png`,
+  //     Buffer.from(photoData)
+  //   );
+  //   if (data.photo.size === 0) {
+  //     data.photo = null;
+  //   } else {
+  //     data.photo = `/images/comments/${randomFileName}.png`;
+  //   }
+  // }
   const result = formSchema.safeParse(data);
   if (!result.success) {
     return result.error.flatten();
@@ -66,7 +66,7 @@ export async function addComment(tweetId: number, formData: FormData) {
       data: {
         tweetId,
         payload: comment,
-        photo: photo !== null ? photo : null,
+        // photo: photo !== null ? photo : null,
         userId: session.id!,
       },
     });
