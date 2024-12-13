@@ -1,3 +1,4 @@
+import ImgContainer from "@/components/img-container";
 import ListTweet from "@/components/list-tweet";
 import { isOwner } from "@/service/userService";
 import { UserIcon } from "@heroicons/react/24/solid";
@@ -23,14 +24,13 @@ export default async function User({ params }: { params: Promise<{ username: str
                 <div className="p-3">
                     <div>
                         {user.avatar !== null ? (
-                            <Image
-                                className="rounded-full"
-                                width={133}
-                                height={133}
+                            <ImgContainer
+                                cover="cover"
+                                size="133"
                                 src={user.avatar}
                                 alt={username}
                             />
-                        ) : <UserIcon className="w-[133px] h-[133px] rounded-full" />}
+                        ) : <UserIcon className="size-[133px] rounded-full" />}
                         <h3 className="font-extrabold text-xl">{user.username}</h3>
                         <small>@{user.email}</small>
                     </div>

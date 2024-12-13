@@ -5,14 +5,10 @@ import {
   PASSWORD_MIN_LENGTH,
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
-  USERNAME_MIN_LENGTH,
 } from "@/lib/constants";
 import db from "@/lib/db";
 import { z } from "zod";
-import getSession from "@/lib/session";
-import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import saveSession from "@/lib/saveSession";
 
 const checkEmailExists = async (email: string) => {
   const user = await db.user.findUnique({
@@ -40,7 +36,7 @@ const formSchema = z.object({
     .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
 });
 
-export async function login(prevState: any, formData: FormData) {
+export async function login(_: unknown, formData: FormData) {
   const data = {
     email: formData.get("email"),
     password: formData.get("password"),
@@ -65,10 +61,7 @@ export async function login(prevState: any, formData: FormData) {
     );
 
     if (ok) {
-      const session = await getSession();
-      session.id = user!.id;
-      await session.save();
-      redirect("/");
+      await saveSession(user!.id);
     } else {
       return {
         fieldErrors: {

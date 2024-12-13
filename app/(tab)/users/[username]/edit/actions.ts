@@ -20,8 +20,27 @@ const checkPassword = ({
   confirmPassword: string;
 }) => password === confirmPassword;
 
+const IsUrlImage = async (url: string) => {
+  if (url === "") {
+    return true;
+  }
+  const fetchUrl = await fetch(url);
+  return Boolean(fetchUrl.headers.get("Content-Type")?.includes("image"));
+};
 const formSchema = z
   .object({
+    avatar: z.string().superRefine(async (url, ctx) => {
+      const isImage = await IsUrlImage(url);
+      if (!isImage) {
+        ctx.addIssue({
+          code: "custom",
+          message: "This url is not image url",
+          path: ["photo"],
+          fatal: true,
+        });
+        return z.NEVER;
+      }
+    }),
     username: z
       .string({
         invalid_type_error: "Username must be a string",
@@ -59,6 +78,7 @@ export async function editProfile(
   formData: FormData
 ): Promise<FormState> {
   const data = {
+    avatar: formData.get("avatar"),
     username: formData.get("username"),
     email: formData.get("email"),
     bio: formData.get("bio"),
@@ -67,8 +87,9 @@ export async function editProfile(
     confirmPassword: formData.get("confirmPassword"),
   };
   const result = await formSchema.spa(data);
-  if (!result.success)
+  if (!result.success) {
     return { error: result.error.flatten(), isSuccess: false };
+  }
 
   const isValidPassword = await checkUserPassword(result.data.prevPassword);
   if (!isValidPassword) {
@@ -88,6 +109,7 @@ export async function editProfile(
         id: session.id,
       },
       data: {
+        avatar: result.data.avatar === "" ? null : result.data.avatar,
         email: result.data.email,
         username: result.data.username,
         password: hashedPassword,

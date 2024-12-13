@@ -4,6 +4,7 @@ import { formatToTimeAgo } from "@/lib/utils";
 import Image from "next/image";
 import { ChartBarIcon, ChatBubbleLeftIcon, HandThumbUpIcon, UserIcon } from "@heroicons/react/24/solid";
 import InfoBar from "./tweet-info-bar";
+import ImgContainer from "./img-container";
 
 export default function ListTweet({
     title,
@@ -32,15 +33,13 @@ export default function ListTweet({
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 justify-start w-full">
                     {user.avatar !== null ? (
-                        <div>
-                            <Image
-                                className="rounded-full"
-                                width={40}
-                                height={40}
-                                src={user.avatar}
-                                alt={user.username}
-                            />
-                        </div>
+                        <ImgContainer
+                            cover="cover"
+                            size="40"
+                            src={user.avatar}
+                            alt={user.username}
+                        />
+
                     ) : <UserIcon className="size-10" />}
                     <div className="flex flex-col gap-0 justify-center">
                         <h1 className="text-xl font-bold">{user.username}</h1>

@@ -96,5 +96,5 @@ export async function createAccount(prevState: any, formData: FormData) {
     },
   });
 
-  await saveSession(user.id);
+  await saveSession(user.id, "/");
 }

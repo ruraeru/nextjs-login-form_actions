@@ -12,6 +12,11 @@ export default function ProfileEdit({ userInfo }: { userInfo: userInfoType }) {
     return (
         <form action={dispatch} className="w-full flex flex-col gap-5 justify-center">
             <Input
+                type="url"
+                name="avatar"
+                placeholder="아바타"
+            />
+            <Input
                 labelIcon={<UserIcon />}
                 name="username"
                 type="text"
