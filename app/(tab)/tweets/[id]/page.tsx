@@ -84,7 +84,12 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
             }
             <div className="flex flex-col gap-5 items-start">
                 <InfoBar {...tweet._count} views={tweet.views} />
-                <p className="mb-5">{tweet.tweet}</p>
+                <div>
+                    <p className="text-sm break-all">
+                        <span className="text-sm font-semibold mr-2">{tweet.user.username}</span>
+                        {tweet.tweet}
+                    </p>
+                </div>
                 <LikeButton isLiked={isLiked} likeCount={likeCount} tweetId={paramsId} />
             </div>
             <AddComment tweetId={paramsId} />

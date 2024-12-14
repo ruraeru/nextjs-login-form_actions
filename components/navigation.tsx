@@ -8,7 +8,7 @@ export default async function Navigation() {
     return (
         <div>
             <ul className="flex flex-col gap-5 *:p-5 items-center 
-            bg-neutral-800
+            bg-black
             left-0
             z-50
             fixed

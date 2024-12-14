@@ -28,7 +28,7 @@ export default function ListTweet({
     }
 }) {
     return (
-        <Link href={`/tweets/${id}`} className="flex flex-col p-5 rounded-2xl *:text-white border-2 gap-2 bg-neutral-900">
+        <Link href={`/tweets/${id}`} className="flex flex-col p-5 rounded-2xl *:text-white border-2 bg-neutral-900 gap-2 w-full">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 justify-start">
                     <div className="relative size-10 rounded-full overflow-hidden">
@@ -52,16 +52,13 @@ export default function ListTweet({
             </div>
             <div className="flex flex-col justify-center gap-2 overflow-hidden">
                 <div className="*:truncate w-1/2">
-                    <h1 className="text-xl">{title}</h1>
-                    <p className="text-sm">
-                        {tweet}
-                    </p>
+                    <h1 className="text-lg">{title}</h1>
                 </div>
                 <div className="flex justify-center">
                     {photo !== null && (
                         <div className="relative w-[468px] h-[568px]">
                             <Image
-                                className="rounded-md object-contain"
+                                className="rounded-md object-cover"
                                 fill
                                 sizes="(max-width-468px) (max-height-568px)"
                                 src={photo}
@@ -69,6 +66,12 @@ export default function ListTweet({
                             />
                         </div>
                     )}
+                </div>
+                <div className="*:truncate w-1/2">
+                    <p className="text-sm break-all">
+                        <span className="text-sm font-semibold mr-2">{user.username}</span>
+                        {tweet}
+                    </p>
                 </div>
             </div>
             <InfoBar {..._count} views={views} />

@@ -9,7 +9,7 @@ export default async function User({ params }: { params: Promise<{ username: str
     const { username } = await params;
     const { isOwn, user } = await isOwner(username)
     return (
-        <div className="flex flex-col gap-5 pt-5">
+        <div className="flex flex-col gap-5 pt-5 items-start">
             <div>
                 <div>
                     <Image
@@ -39,9 +39,11 @@ export default async function User({ params }: { params: Promise<{ username: str
                     )}
                 </div>
             </div>
-            {user.tweet.map((tweet) => (
-                <ListTweet key={tweet.id} {...tweet} />
-            ))}
+            <div className="w-full flex flex-col items-center justify-center gap-2">
+                {user.tweet.map((tweet) => (
+                    <ListTweet key={tweet.id} {...tweet} />
+                ))}
+            </div>
         </div>
 
     )
