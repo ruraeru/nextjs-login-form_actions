@@ -47,6 +47,7 @@ export default async function Navigation() {
                             {userInfo?.avatar ? (
                                 <Image
                                     fill
+                                    sizes="(max-width-40px) (max-height-40px)"
                                     src={userInfo.avatar}
                                     alt={userInfo.username}
                                 />

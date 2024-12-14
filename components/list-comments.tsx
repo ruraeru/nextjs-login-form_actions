@@ -24,7 +24,8 @@ async function getComments(tweetId: number) {
 }
 
 const gegetCachedComments = nextCache(getComments, ["tweet-comments"], {
-    tags: ["tweet-comments"]
+    tags: ["tweet-comments"],
+    revalidate: 60
 })
 
 

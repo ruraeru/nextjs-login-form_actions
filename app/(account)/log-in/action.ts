@@ -9,7 +9,6 @@ import {
 import db from "@/lib/db";
 import { z } from "zod";
 import saveSession from "@/lib/saveSession";
-import { redirect } from "next/navigation";
 
 const checkEmailExists = async (email: string) => {
   const user = await db.user.findUnique({
@@ -62,7 +61,7 @@ export async function login(_: unknown, formData: FormData) {
     );
 
     if (ok) {
-      await saveSession(user!.id, "/");
+      return await saveSession(user!.id);
     } else {
       return {
         fieldErrors: {

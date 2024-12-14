@@ -45,7 +45,7 @@ export default async function Comment({ id, payload, created_at, userId, user, p
     }
     const { likeCount, isLiked } = await getLikeResponseStatus(id);
     return (
-        <div className="relative p-2 border-2 border-zinc-500 rounded-xl">
+        <div className="relative p-3 border-2 border-zinc-500 rounded-xl">
             <Link href={`/users/${user.username}`} className="flex gap-1">
                 <div>
                     {user.avatar !== null ? (
@@ -60,21 +60,21 @@ export default async function Comment({ id, payload, created_at, userId, user, p
                 </div>
                 <div className="flex items-center">
                     <div className="flex flex-col leading-3">
-                        <span className="text-lg font-semibold leading-3">{user.username} </span>
+                        <div>
+                            <div className="flex items-center gap-1">
+                                <span className="text-lg font-semibold leading-3">{user.username}</span>
+                                <p className="text-neutral-500">·</p>
+                                <small className="text-neutral-500">{formatToTimeAgo(created_at.toString())}</small>
+                            </div>
+                        </div>
                         <small className="text-xs leading-5">@{user.username}</small>
-                    </div>
-                    <div>
-                        <p>·</p>
-                    </div>
-                    <div>
-                        <small>{formatToTimeAgo(created_at.toString())}</small>
                     </div>
                 </div>
             </Link>
-            <div>
-                <h3 className="break-all">{payload}</h3>
-                <div className="relative h-[568px]">
-                    {photo !== null && (
+            <div className="flex flex-col gap-2">
+                <h3 className="break-all pl-2">{payload}</h3>
+                {photo !== null && (
+                    <div className="relative h-[568px]">
                         <Image
                             className="object-contain"
                             fill
@@ -83,8 +83,8 @@ export default async function Comment({ id, payload, created_at, userId, user, p
                             src={photo}
                             alt={id + ""}
                         />
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
             {
                 isOwner ? (
