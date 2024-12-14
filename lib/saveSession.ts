@@ -8,5 +8,5 @@ export default async function saveSession(
   const session = await getSession();
   session.id = id;
   await session.save();
-  return redirect(`/${redirectPath}`);
+  return redirect(`${redirectPath}`);
 }
