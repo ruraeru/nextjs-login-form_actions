@@ -45,7 +45,7 @@ export default async function Comment({ id, payload, created_at, userId, user, p
     }
     const { likeCount, isLiked } = await getLikeResponseStatus(id);
     return (
-        <div className="relative p-3 border-2 border-zinc-500 rounded-xl">
+        <div className="p-3 border-2 border-zinc-500 rounded-xl relative">
             <Link href={`/users/${user.username}`} className="flex gap-1">
                 <div>
                     {user.avatar !== null ? (
@@ -76,7 +76,7 @@ export default async function Comment({ id, payload, created_at, userId, user, p
             <div className="flex flex-col gap-2">
                 <h3 className="break-all pl-2">{payload}</h3>
                 {photo !== null && (
-                    <div className="relative h-[568px]">
+                    <div className="relative h-[568px] max-[640px]:max-h-[320px]">
                         <Image
                             className="object-contain"
                             fill

@@ -2,16 +2,25 @@
 
 import Button from "@/components/button";
 import Input from "@/components/input";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 import { login } from "./action";
 import Link from "next/link";
 import { EnvelopeIcon, KeyIcon } from "@heroicons/react/24/solid";
+import { useRouter } from "next/navigation";
 
 export default function LogIn() {
   //useActionState => login(null) return state => call again action 
   //=> login(prevState) return PrevState
+
   const [state, dispatch] = useActionState(login, null);
+  // const router = useRouter()
+  // useEffect(() => {
+  //   if (state?.fieldErrors. === "redirect") {
+  //     router.push("/");
+  //     router.refresh();
+  //   }
+  // }, [state, router]);
   return (
     <div className="flex flex-col gap-10 items-center justify-center">
       <div className="flex justify-center">

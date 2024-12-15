@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "../globals.css";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: 'Next.js',
@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-neutral-900 text-white max-w-screen-md mx-auto">
+      <body className="bg-black text-white max-w-screen-md mx-auto py-10 px-5">
         {children}
       </body>
     </html>

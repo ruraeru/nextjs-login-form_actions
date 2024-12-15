@@ -14,12 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="relative max-w-screen-sm mx-auto py-10 px-5 bg-neutral-900 text-white">
-        <HeaderNavigation />
-        <Navigation />
-        {children}
-      </body>
-    </html>
+    <div className="">
+      <HeaderNavigation />
+      <Navigation />
+      {children}
+    </div>
   );
 }

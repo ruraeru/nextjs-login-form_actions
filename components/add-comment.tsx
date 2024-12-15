@@ -44,7 +44,7 @@ export default function AddComment({ tweetId }: { tweetId: number }) {
     return (
         <>
             <form action={onClick} className="flex flex-col gap-2">
-                <div className="flex flex-col items-center justify-between gap-5">
+                <div className="flex flex-col items-center justify-between gap-2">
                     <div className="flex items-center justify-start w-full gap-2">
                         <Input
                             labelIcon={<UserIcon className="size-7" />}

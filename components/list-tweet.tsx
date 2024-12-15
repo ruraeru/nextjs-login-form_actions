@@ -28,7 +28,7 @@ export default function ListTweet({
     }
 }) {
     return (
-        <Link href={`/tweets/${id}`} className="flex flex-col p-5 rounded-2xl *:text-white border-2 bg-neutral-900 gap-2 w-full">
+        <Link href={`/tweets/${id}`} className="relative flex flex-col p-5 rounded-2xl *:text-white border-2 bg-neutral-900 gap-2">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 justify-start">
                     <div className="relative size-10 rounded-full overflow-hidden">
@@ -58,7 +58,7 @@ export default function ListTweet({
                     {photo !== null && (
                         <div className="relative w-[468px] h-[568px]">
                             <Image
-                                className="rounded-md object-cover"
+                                className="rounded-md object-contain"
                                 fill
                                 sizes="(max-width-468px) (max-height-568px)"
                                 src={photo}

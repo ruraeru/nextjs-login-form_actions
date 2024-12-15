@@ -76,15 +76,17 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
                 </div>
             </div>
             <h2 className="text-lg font-semibold">{tweet.title}</h2>
-            {tweet.photo &&
-                <Image
-                    width={600}
-                    height={400}
-                    src={tweet.photo}
-                    alt={tweet.title}
-                />
-            }
-            <div className="flex flex-col gap-5 items-start">
+            <div className="flex items-center justify-center">
+                {tweet.photo &&
+                    <Image
+                        width={600}
+                        height={400}
+                        src={tweet.photo}
+                        alt={tweet.title}
+                    />
+                }
+            </div>
+            <div className="flex flex-col gap-5 items-start w-full">
                 <InfoBar {...tweet._count} views={tweet.views} />
                 <div>
                     <p className="text-sm break-all">
@@ -94,8 +96,10 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
                 </div>
                 <LikeButton isLiked={isLiked} likeCount={likeCount} tweetId={paramsId} />
             </div>
-            <AddComment tweetId={paramsId} />
-            <CommentsList tweetId={paramsId} />
+            <div className="flex flex-col gap-2">
+                <AddComment tweetId={paramsId} />
+                <CommentsList tweetId={paramsId} />
+            </div>
         </div>
     )
 }
