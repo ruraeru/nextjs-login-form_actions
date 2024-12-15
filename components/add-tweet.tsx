@@ -11,21 +11,21 @@ export const ALLOWED_FILE_TYPE = ["png", "jpg", "jpeg"];
 
 export default function AddTweet() {
     const [preview, setPreview] = useState("");
-    const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { files } = e.target;
-        if (!files) return;
-        const file = files[0];
+    // const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { files } = e.target;
+    //     if (!files) return;
+    //     const file = files[0];
 
-        if (ALLOWED_FILE_TYPE.indexOf(file.type.split("/")[1]) === -1) {
-            alert("file upload is only .png, .jpg, .jpeg");
-            return;
-        }
-        if (file.size > MAX_FILE_SIZE) {
-            alert("file is very big!!!!");
-            return;
-        }
-        setPreview(URL.createObjectURL(file));
-    }
+    //     if (ALLOWED_FILE_TYPE.indexOf(file.type.split("/")[1]) === -1) {
+    //         alert("file upload is only .png, .jpg, .jpeg");
+    //         return;
+    //     }
+    //     if (file.size > MAX_FILE_SIZE) {
+    //         alert("file is very big!!!!");
+    //         return;
+    //     }
+    //     setPreview(URL.createObjectURL(file));
+    // }
     const [state, action] = useActionState(uploadTweet, null);
     return (
         <div>
@@ -62,7 +62,7 @@ export default function AddTweet() {
                         errors={state?.fieldErrors.photo}
                     />
                 </div>
-                {preview ? (
+                {/* {preview ? (
                     <label
                         htmlFor="photo"
                         className={`border-2 border-neutral-600 aspect-square flex items-center justify-center flex-col rounded-3xl relative
@@ -79,15 +79,15 @@ export default function AddTweet() {
                             />
                         </div>
                     </label>
-                ) : null}
-                <input
+                ) : null} */}
+                {/* <input
                     onChange={onImageChange}
                     type="file"
                     id="photo"
                     name="photo"
                     accept="image/jpg, image/png, image/jpeg"
                     className="hidden"
-                />
+                /> */}
                 <div className="flex items-center justify-between h-10 py-10">
                     <label htmlFor="photo">
                         <PhotoIcon className="size-10 cursor-pointer" />

@@ -1,17 +1,14 @@
 import AddComment from "@/components/add-comment";
-import Button from "@/components/button";
-import Input from "@/components/input";
 import LikeButton from "@/components/like-button";
 import CommentsList from "@/components/list-comments";
 import InfoBar from "@/components/tweet-info-bar";
 import db from "@/lib/db";
-import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
 import { getLikeStatus } from "@/service/tweetService";
-import { AtSymbolIcon, EyeIcon, UserIcon } from "@heroicons/react/24/solid";
+import { isOwner } from "@/service/userService";
+import { UserIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import { notFound } from "next/navigation";
-import Loading from "./loading";
+import { notFound, redirect } from "next/navigation";
 
 async function tweetDetail(id: number) {
     try {
@@ -43,7 +40,6 @@ async function tweetDetail(id: number) {
 }
 
 export default async function DetailTweet({ params }: { params: Promise<{ id: string }> }) {
-    // await new Promise(r => setTimeout(r, 100000));
     const { id } = await params;
     if (isNaN(Number(id))) {
         return notFound();
@@ -53,17 +49,36 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
     if (!tweet) {
         return notFound()
     }
+    const { isOwn, user } = await isOwner(tweet.user.username);
+
+    const deleteTweet = async () => {
+        "use server";
+        if (isOwn) {
+            const deleteTweet = await db.tweet.delete({
+                where: {
+                    id: paramsId
+                },
+                select: {
+                    id: true
+                }
+            })
+            if (deleteTweet) {
+                redirect("/")
+            }
+        }
+    }
     const { likeCount, isLiked } = await getLikeStatus(paramsId)
     return (
-        <div className="p-5 text-white flex flex-col gap-2">
+        <div className="p-5 text-white flex flex-col gap-2 relative">
             <div className="flex items-center gap-2 mb-2">
                 {tweet.user.avatar ? (
                     <Image
-                        width={40}
-                        height={40}
+                        width={500}
+                        height={500}
                         className="size-7 rounded-full"
                         src={tweet.user.avatar!}
                         alt={tweet.user.username}
+                        priority
                     />
                 ) : (
                     <UserIcon className="size-7 rounded-full" />
@@ -83,9 +98,11 @@ export default async function DetailTweet({ params }: { params: Promise<{ id: st
                         height={400}
                         src={tweet.photo}
                         alt={tweet.title}
+                        priority
                     />
                 }
             </div>
+            {isOwn && <XMarkIcon onClick={deleteTweet} className="size-7 absolute top-3 right-3 cursor-pointer" />}
             <div className="flex flex-col gap-5 items-start w-full">
                 <InfoBar {...tweet._count} views={tweet.views} />
                 <div>

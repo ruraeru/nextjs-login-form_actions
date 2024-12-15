@@ -11,13 +11,13 @@ export default function HeaderNavigation() {
     }
     return (
         <div className="
-        fixed
-        top-5 p-5 w-full text-white z-10
+        top-0 w-full text-white z-10
         flex gap-2 items-center
         text-center
+        relative
         ">
             <ArrowLeftIcon className="size-7 cursor-pointer z-50" onClick={onClick} />
-            <span className="fixed left-0 text-xl font-bold w-full">{pathName === "/" ? "Home" : pathName}</span>
+            <span className="absolute left-0 text-xl font-bold w-full">{pathName === "/" ? "Home" : pathName}</span>
         </div>
     )
 }

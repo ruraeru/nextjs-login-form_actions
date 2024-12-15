@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="">
+    <div className="mb-20">
       <HeaderNavigation />
       <Navigation />
       {children}

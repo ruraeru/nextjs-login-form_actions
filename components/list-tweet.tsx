@@ -28,7 +28,7 @@ export default function ListTweet({
     }
 }) {
     return (
-        <Link href={`/tweets/${id}`} className="relative flex flex-col p-5 rounded-2xl *:text-white border-2 bg-neutral-900 gap-2">
+        <Link href={`/tweets/${id}`} className="relative flex flex-col p-5 rounded-2xl *:text-white bg-neutral-900 gap-2 w-full">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 justify-start">
                     <div className="relative size-10 rounded-full overflow-hidden">
@@ -38,6 +38,7 @@ export default function ListTweet({
                                 sizes="(max-width-40px) (max-height-40px)"
                                 src={user.avatar}
                                 alt={user.username}
+                                priority
                             />
                             : <UserIcon className="size-10" />}
                     </div>
@@ -63,6 +64,7 @@ export default function ListTweet({
                                 sizes="(max-width-468px) (max-height-568px)"
                                 src={photo}
                                 alt={title}
+                                priority
                             />
                         </div>
                     )}

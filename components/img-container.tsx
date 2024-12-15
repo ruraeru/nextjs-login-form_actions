@@ -18,6 +18,7 @@ export default function ImgContainer({ src, alt, size, cover = "contain", rounde
                 sizes={`(max-width-${size}px) (max-height-${size}px)`}
                 src={src}
                 alt={alt}
+                priority
             />
         </div>
     )

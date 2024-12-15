@@ -2,7 +2,7 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
 import { UserIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import LikeButton from "./like-button";
