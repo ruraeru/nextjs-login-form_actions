@@ -12,19 +12,17 @@ const publicOnlyUrls: Routes = {
 };
 
 export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+  const { url } = req;
   const session = await getSession();
-  const exists = publicOnlyUrls[req.nextUrl.pathname];
-  if (!session.id) {
-    if (!exists) {
-      return NextResponse.redirect(new URL("/log-in", req.url));
-    }
-  } else {
-    if (exists) {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
+  const exists = publicOnlyUrls[pathname];
+
+  if (!session.id && !exists) {
+    return NextResponse.redirect(new URL("/log-in", url));
   }
-  const cookie = await cookies();
-  session.id === cookie.get("next-cookie");
+  if (session.id && exists) {
+    return NextResponse.redirect(new URL("/", url));
+  }
 }
 
 export const config = {

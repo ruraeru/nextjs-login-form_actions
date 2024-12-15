@@ -9,6 +9,7 @@ import {
 import db from "@/lib/db";
 import { z } from "zod";
 import saveSession from "@/lib/saveSession";
+import { revalidatePath } from "next/cache";
 
 const checkEmailExists = async (email: string) => {
   const user = await db.user.findUnique({
