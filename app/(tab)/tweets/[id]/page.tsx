@@ -11,6 +11,7 @@ import { getLikeStatus } from "@/service/tweetService";
 import { AtSymbolIcon, EyeIcon, UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import Loading from "./loading";
 
 async function tweetDetail(id: number) {
     try {
@@ -42,6 +43,7 @@ async function tweetDetail(id: number) {
 }
 
 export default async function DetailTweet({ params }: { params: Promise<{ id: string }> }) {
+    // await new Promise(r => setTimeout(r, 100000));
     const { id } = await params;
     if (isNaN(Number(id))) {
         return notFound();

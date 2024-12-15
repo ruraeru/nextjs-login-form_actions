@@ -1,5 +1,5 @@
 import { getUserAvatar } from "@/service/userService";
-import { HomeIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/solid";
+import { ArrowRightStartOnRectangleIcon, HomeIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -38,7 +38,7 @@ export default async function Navigation() {
                 </li>
                 <li>
                     <Link href="/profile">
-                        <UserIcon className="size-7" />
+                        <ArrowRightStartOnRectangleIcon className="size-7" />
                     </Link>
                 </li>
                 <li className="cursor-pointer">

@@ -49,13 +49,15 @@ export default async function Comment({ id, payload, created_at, userId, user, p
             <Link href={`/users/${user.username}`} className="flex gap-1">
                 <div>
                     {user.avatar !== null ? (
-                        <Image
-                            className="rounded-full"
-                            width={40}
-                            height={40}
-                            src={user.avatar}
-                            alt={user.username}
-                        />
+                        <div className="relative size-10">
+                            <Image
+                                className="rounded-full object-cover"
+                                fill
+                                sizes="10"
+                                src={user.avatar}
+                                alt={user.username}
+                            />
+                        </div>
                     ) : <UserIcon className="size-10 rounded-full" />}
                 </div>
                 <div className="flex items-center">

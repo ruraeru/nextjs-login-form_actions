@@ -15,7 +15,7 @@ export default function HeaderNavigation() {
         flex gap-2 items-center
         text-center
         ">
-            <ArrowLeftIcon className="size-7" onClick={onClick} />
+            <ArrowLeftIcon className="size-7 absolute" onClick={onClick} />
             <span className="text-xl font-bold w-full">{pathName === "/" ? "Home" : pathName}</span>
         </div>
     )

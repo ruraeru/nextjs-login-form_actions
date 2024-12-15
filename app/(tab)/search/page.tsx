@@ -35,7 +35,14 @@ export default function Search() {
                             <div className="flex gap-2 items-center">
                                 <div className="rounded-full w-10 h-10 overflow-hidden">
                                     {user.avatar === null ? <UserIcon /> : (
-                                        <Image width={40} height={40} src={user.avatar!} alt={user.username} />
+                                        <div className="relative size-10">
+                                            <Image
+                                                className="rounded-full object-cover"
+                                                fill
+                                                sizes="10"
+                                                src={user.avatar!}
+                                                alt={user.username} />
+                                        </div>
                                     )}
                                 </div>
                                 <div className="flex flex-col">
